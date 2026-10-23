@@ -41,12 +41,6 @@ end
 
 onlineVersion = tostring(onlineVersion):gsub("%s+", "")
 
-if onlineVersion ~= EXPECTED_VERSION then
-    local lp = game:GetService("Players").LocalPlayer
-    lp:Kick("Your Playing With The Wrong version of blackking... Current Version: ".. EXPECTED_VERSION)
-    return
-end
-
 	local EntityShortNames = {
 		["RushMoving"] = "Rush",
 		["AmbushMoving"] = "Ambush",
