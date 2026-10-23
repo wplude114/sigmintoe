@@ -501,8 +501,10 @@ task.spawn(function()
             Character:SetAttribute("CanJump", Toggles.EnableJump.Value)
         end
     end
-	
-	if Toggles.EnableSprintthen
+end)
+task.spawn(function()
+    task.wait(0.1)
+	if Toggles.EnableSprint then
         if Character then
             Character:SetAttribute("CanSprint", Toggles.EnableJump.Value)
         end
