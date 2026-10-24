@@ -3984,13 +3984,17 @@ thirdtab:AddToggle('AntiShade', {
 
 thirdtab:AddDivider()
 
+local EasyNoiseActive = false
 thirdtab:AddToggle('EasyStatic', {
     Text = 'Easy Noise',
     Default = false,
     Tooltip = "Makes noise die instantly when you grab it's tv.",
+	Callback = function(Value)
+		EasyNoiseActive = Value
+	end
 })
-local EasyNoiseActive, EasyNoiseConnection = false, workspace.DescendantAdded:Connect(function(v)
-	if v.Name ~= "TV_Stand" or v.Parent == workspace:WaitForChild("Misc") then return end
+local EasyNoiseConnection = workspace:WaitForChild("CurrentRooms").DescendantAdded:Connect(function(v)
+	if v.Name ~= "TV_Stand" then return end
 	if not v:FindFirstChild("Collider") then return end
 
 	if EasyNoiseActive then
