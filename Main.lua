@@ -201,28 +201,22 @@ getgenv().Bk = true
 
 	local infTab = Tabs.Info:AddLeftTabbox()
 	local inffirsttab = infTab:AddTab('Update Log')
-
-	inffirsttab:AddLabel("\n<DOORS>")
-	inffirsttab:AddDivider()
+		
     	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors/visions.</font>")
 
-	inffirsttab:AddLabel("\n<SCRIPT>")
 	inffirsttab:AddDivider()
     	inffirsttab:AddLabel("<font color='#00ff00'>+ New options in game tab!</font>")
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(use position spoof to prevent issues with stuttering.)</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(use position spoof.)</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
 	
-	local inffirsttab2 = infTab:AddTab('Upcomming')
+	local inffirsttab2 = Tabs.Info:AddRightTabbox():AddTab('Upcomming')
+		
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
 	
-	inffirsttab2:AddLabel("\n<SCRIPT>")
-	inffirsttab2:AddDivider()
-		inffirsttab2:AddLabel("<font color='#ffff00'>- Anti ransom</font>")
-		inffirsttab2:AddLabel("<font color='#ffff00'>- Anti alma</font>")
-		inffirsttab2:AddLabel("<font color='#ffff00'>- Debug/Developer tab (in admin panel)</font>")
-	
-	inffirsttab2:AddLabel("\n<OTHER>")
-	inffirsttab2:AddDivider()
-		inffirsttab2:AddLabel("<font color='#ffff00'>- Custom item skins</font>")
+	inffirsttab:AddDivider()
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Custom item skins</font>")
 
 	
 	local mnTAB = Tabs.Main:AddLeftTabbox()
@@ -5796,36 +5790,35 @@ local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 	MenuGroup:AddDivider()
 
-	MenuGroup:AddButton('Copy Discord Server Link', function()
-		setclipboard("https://discord.gg/HjqzMPJveZ")
-		Library:Notify("<b>[BlackKing]</b>\nCopy Discord Server Link: Done!")
-		sound()
-	end)
-
 	MenuGroup:AddDivider()
-local group = Tabs.game:AddLeftGroupbox('Travel')
-group:AddButton("Next Room", function()
-	local plr = game.Players.LocalPlayer
-	local char = plr.Character
-    local Rooms = workspace:WaitForChild("CurrentRooms")
-	local StartRoom = plr:GetAttribute("CurrentRoom")
-    local Room  = Rooms:FindFirstChild(tostring(StartRoom))
-	local Door = Room:FindFirstChild("Door",true) or Room
-	local att = 0
-	
-   	repeat att += 1;
-		local dir = (Door:FindFirstChildWhichIsA("BasePart", true).Position - char.HumanoidRootPart.Position).Unit
-		char.Humanoid.Sit = true
-		char.HumanoidRootPart.Velocity += dir*1000
-		game.RunService.Heartbeat:Wait()
-		game.RunService.Heartbeat:Wait()
-	until plr:GetAttribute("CurrentRoom") ~= StartRoom or att >= 100
-	char:PivotTo(char:GetPivot() * CFrame.new(0,999999,0))
-end)
+local group = Tabs.game:AddLeftGroupbox('World')
+group:AddToggle("Gravity", {
+    Text = "Gravity Enabled",
+    Default = true,
+    Tooltip = "Turns off gravity.",
+    DisabledTooltip = "Turns on gravity.",
+    Callback = function(enabled)
+        if enabled then
+			workspace.Gravity = 90
+        else
+            workspace.Gravity = 0
+        end
+    end
+})
+local DoCollisionGroups = true
+group:AddToggle("CollisionGroups", {
+    Text = "Disable Collision Groups",
+    Default = false,
+    Tooltip = "<font color='#ff9900'>⚠ May cause issues!</font>\nDisalbes collision groups.",
+    Callback = function(enabled)
+        DoCollisionGroups = not enabled
+    end
+})
+
 MenuGroup:AddButton("Unload", function()
 
 FlyModule:Unload()
-
+	workspace.Gravity = 90
     if SpeedBoostConnection then
         SpeedBoostConnection:Disconnect()
         SpeedBoostConnection = nil
