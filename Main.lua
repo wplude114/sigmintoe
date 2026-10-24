@@ -174,8 +174,8 @@ task.spawn(function()
 		repeat
 			task.wait(0.5)
 		until not Character or tonumber(game.Players.LocalPlayer:GetAttribute("CurrentRoom")) >= amount
-		if AllowProgress then return warn("You would normally get kicked now, but you have progres enabled.") end
-		game.Players.LocalPlayer:Kick("You are unable to continue; Do not exploit for free stuff, it's just for fun!")
+		if AllowProgress then return warn("You would normally get kicked now, but you have progress enabled.") end
+		game.Players.LocalPlayer:Kick("You are unable to continue.")
 	end)
 
 	local function sound()
@@ -214,7 +214,7 @@ getgenv().Bk = true
 	Tabs.Info:UpdateWarningBox({
 		Visible = true,
 		Title = "Notice",
-		Text = "<u>We do not condone using exploits to get <b>free stuff</b></u>, this is all for good fun!\nAs such, you will be <b>kicked</b> on the last room to prevent you form hacking badges such as hotel hell.",
+		Text = "<u>We do not condone using exploits to get <b>free stuff</b></u>, this is all for good fun!\nAs such, you will be <b>kicked</b> on the last room to prevent you from hacking badges such as hotel hell.",
 	})
 	local inffirsttab = infTab:AddTab('Update Log')
 		
