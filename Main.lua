@@ -5869,7 +5869,7 @@ group:AddCheckbox("Progress", {
        AllowProgress = enabled
     end
 })
-
+	task.wait(1)
 
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
 
