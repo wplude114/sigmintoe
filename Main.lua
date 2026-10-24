@@ -5874,10 +5874,6 @@ group:AddCheckbox("Progress", {
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
 
 	Library.ToggleKeybind = Options.MenuKeybind
-
-	local AboutGroup = Tabs['UI Settings']:AddRightGroupbox('Contributors')
-
-    AboutGroup:AddLabel("<font color='#15ff00'>Abbas</font> - Helped with \nPosition Spoof")
 	ThemeManager:SetLibrary(Library)
 	SaveManager:SetLibrary(Library)
 	SaveManager:IgnoreThemeSettings()
