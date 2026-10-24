@@ -1,4 +1,5 @@
 print("it should work")
+local AllowProgress = false
 if true then
 
 repeat task.wait() until game:IsLoaded()
@@ -167,6 +168,17 @@ if not FloorSupported(Services.ReplicatedStorage.GameData.Floor.Value) then
         game.Players.LocalPlayer:Kick("This script doesn't support this floor. SupportedFloors: " .. list)
 end
 
+task.spawn(function()
+		local amount = Services.ReplicatedStorage.GameData.Floor.Value == "Backdoor" and 49 or 99
+		if Services.ReplicatedStorage.GameData.Floor.Value == "Ripple" then amount = 3 end
+		const Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+		repeat
+			task.wait(0.5)
+		until not Character or tonumber(game.Players.LocalPlayer.CurrentRoom) >= amount
+		if AllowProgress then return warn("You would normally get kicked now, but you have progres enabled.") end
+		player:Kick("You are unable to continue; Do not exploit for free stuff, it's just for fun!")
+	end)
+
 	local function sound()
 		local s = Instance.new("Sound")
 		s.SoundId = "rbxassetid://4590662766"
@@ -200,6 +212,11 @@ local Tabs = {
 getgenv().Bk = true
 
 	local infTab = Tabs.Info:AddLeftTabbox()
+	Tabs.Info:UpdateWarningBox({
+		Visible = true,
+		Title = "Notice",
+		Text = "<u>We do not condone using exploits to get <b>free stuff</b></u>, this is all for good fun!\nAs such, you will be <b>kicked</b> on the last room to prevent you form hacking badges such as hotel hell.",
+	})
 	local inffirsttab = infTab:AddTab('Update Log')
 		
     	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors/visions.</font>")
@@ -213,6 +230,7 @@ getgenv().Bk = true
 		
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti noise</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
 	
 	inffirsttab:AddDivider()
@@ -5805,6 +5823,18 @@ group:AddToggle("Gravity", {
         end
     end
 })
+
+group:AddCheckbox("Progress", {
+    Text = "Allow Progress",
+    Default = false,
+    Tooltip = "Disables the kick message when you reach the end of the floor.",
+	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>",
+	Disabled = true
+    Callback = function(enabled)
+       AllowProgress = enabled
+    end
+})
+	
 local DoCollisionGroups = true
 group:AddToggle("CollisionGroups", {
     Text = "Disable Collision Groups",
