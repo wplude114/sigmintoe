@@ -5948,7 +5948,7 @@ end
 	pcall(function() script:Destroy() end) -- deadly!!
 end
 })
-
+	taks.wait()
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
 
 	Library.ToggleKeybind = Options.MenuKeybind
