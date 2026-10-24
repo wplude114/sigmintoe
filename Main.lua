@@ -174,7 +174,7 @@ task.spawn(function()
 		const Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 		repeat
 			task.wait(0.5)
-		until not Character or tonumber(game.Players.LocalPlayer.CurrentRoom) >= amount
+		until not Character or tonumber(game.Players.LocalPlayer:GetAttribute("CurrentRoom")) >= amount
 		if AllowProgress then return warn("You would normally get kicked now, but you have progres enabled.") end
 		player:Kick("You are unable to continue; Do not exploit for free stuff, it's just for fun!")
 	end)
@@ -5849,9 +5849,9 @@ group:AddCheckbox("Progress", {
        AllowProgress = enabled
     end
 })
-group:AddButton("Unload", function()
+group:AddButton("Unload Panel", function()
 
-FlyModule:Unload()
+pcall(function() FlyModule:Unload() end)
 	workspace.Gravity = 90
     if SpeedBoostConnection then
         SpeedBoostConnection:Disconnect()
@@ -5919,9 +5919,8 @@ if cam then
     ):Play()
 end
 
-
-	ESPLibrary:Unload()
-	Library:Unload()
+	pcall(function() ESPLibrary:Unload() end)
+	pcall(function() Library:Unload() end)
     getgenv().Bk = nil
 end)
 
