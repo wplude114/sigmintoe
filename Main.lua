@@ -176,7 +176,7 @@ task.spawn(function()
 			task.wait(0.5)
 		until not Character or tonumber(game.Players.LocalPlayer:GetAttribute("CurrentRoom")) >= amount
 		if AllowProgress then return warn("You would normally get kicked now, but you have progres enabled.") end
-		player:Kick("You are unable to continue; Do not exploit for free stuff, it's just for fun!")
+		game.Players.LocalPlayer:Kick("You are unable to continue; Do not exploit for free stuff, it's just for fun!")
 	end)
 
 	local function sound()
