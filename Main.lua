@@ -5809,19 +5809,26 @@ local DoCollisionGroups = true
 group:AddToggle("CollisionGroups", {
     Text = "Disable Collision Groups",
     Default = false,
-    Tooltip = "<font color='#ff9900'>⚠ May cause issues!</font>\nDisalbes collision groups.",
+    Tooltip = "<font color='#ff9900'>⚠ May cause severe issues!</font>\nDisable collision groups.",
     Callback = function(enabled)
         DoCollisionGroups = not enabled
     end
 })
-
-MenuGroup:AddButton("Unload", function()
+local DCGConnection = game.RunService.RenderStepped:Connect(function()
+	workspace.TouchesUseCollisionGroups = DoCollisionGroups or true
+end)
+group = Tabs.game:AddRightGroupbox('Panel')
+group:AddButton("Unload", function()
 
 FlyModule:Unload()
 	workspace.Gravity = 90
     if SpeedBoostConnection then
         SpeedBoostConnection:Disconnect()
         SpeedBoostConnection = nil
+    end
+	if DCGConnection then
+        DCGConnection:Disconnect()
+        DCGConnection = nil
     end
 
     if AutoBreakerConnection then
