@@ -5889,7 +5889,7 @@ group:AddButton({
 		Text = "Glitch",
 		Tooltip = "Force glitch yourself.",
 		Callback = function()
-			v.Character:PivotTo(v.Character:GetPivot() * CFrame.new(0,-1000000,0))
+			game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,-1000000,0))
 		end
 	})
 for i,v in game.Players:GetPlayers() do
@@ -5916,7 +5916,7 @@ for i,v in game.Players:GetPlayers() do
 		Text = "Glitch",
 		Tooltip = "Forces "..v.DisplayName.." to get glitched.",
 		Callback = function()
-			v.Character:PivotTo(v.Character:GetPivot() * CFrame.new(0,-1000000,0))
+			v.Character.HumanoidRootPart.Velocity = Vector3.new(0,-1000000,0))
 		end
 	})
 end
