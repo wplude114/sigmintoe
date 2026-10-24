@@ -252,7 +252,7 @@ Tabs.floortab:UpdateWarningBox({
 	Title = "Warning",
 	Text = "Features highlighted in red do not work in the current floor you are in.",
 })
-
+task.wait()
 	local Player = game.Players.LocalPlayer
 local RunService = game:GetService("RunService")
 
@@ -1053,7 +1053,7 @@ firsttabGen:AddToggle("DistanceInteract", {
 })
 
 
-
+task.wait()
 	local vstab = Tabs.visual:AddLeftTabbox()
 	local SecTab = vstab:AddTab('Visual')
 	local epSet = Tabs.visual:AddRightTabbox()
@@ -5828,6 +5828,7 @@ local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 	MenuGroup:AddDivider()
 
 	MenuGroup:AddDivider()
+task.wait()
 local group = Tabs.game:AddLeftGroupbox('World')
 group:AddToggle("Gravity", {
     Text = "Gravity Enabled",
@@ -5948,7 +5949,6 @@ end
 	pcall(function() script:Destroy() end) -- deadly!!
 end
 })
-	task.wait()
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
 
 	Library.ToggleKeybind = Options.MenuKeybind
