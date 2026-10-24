@@ -24,7 +24,7 @@ local FlyModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/Geo
 
 local VERSION_URL = "https://raw.githubusercontent.com/GeorgeRoblox/version/refs/heads/main/.luau"
 local EXPECTED_VERSION = "v.2.0.0"
-local FILE_NAME = "DONT_DELEATE_BLACKKING"
+local FILE_NAME = "DONT_DELEATE_ME"
 
 if not isfile(FILE_NAME) then
     writefile(FILE_NAME, "VersionCheck Initialized")
@@ -203,6 +203,7 @@ local Tabs = {
 	Main = Window:AddTab("General"),
 	visual = Window:AddTab("Visuals"),
 	game = Window:AddTab("Game"),
+	players = Window:AddTab("Players")
 	Exploits = Window:AddTab("Exploits"),
 	floortab = Window:AddTab("Floor"),
 	["UI Settings"] = Window:AddTab("UI Settings"),
@@ -217,12 +218,13 @@ getgenv().Bk = true
 		Text = "<u>We do not condone using exploits to get <b>free stuff</b></u>, this is all for good fun!\nAs such, you will be <b>kicked</b> on the last room to prevent you from hacking badges such as hotel hell.",
 	})
 	local inffirsttab = infTab:AddTab('Update Log')
-		
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors!</font>")
 
+	inffirsttab:AddLabel("<b>10/24/2026</b>")
 	inffirsttab:AddDivider()
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors!</font>")
 		inffirsttab:AddLabel("<font color='#00ff00'>+ Easy noise exploit</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ New options in game tab!</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Fling button in new Players tab.</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(best to use position spoof.)</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
 	
@@ -233,8 +235,6 @@ getgenv().Bk = true
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti noise</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Fully reworked ESP</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
-	
-	inffirsttab2:AddDivider()
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Custom item skins</font>")
 
 	
@@ -5875,6 +5875,27 @@ group:AddCheckbox("Progress", {
        AllowProgress = enabled
     end
 })
+newgroup = Tabs.players:AddRightTabbox("You")
+newgroup:AddButton({
+	Text = "Fling self",
+	Tooltip = "Flings yourself.",
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true
+		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-200,200), 300, math.random(-200,200))
+	end
+})
+for i,v in game.Players:GetPlayers() do
+	if v == game.Players.LocalPlayer then continue end
+	newgroup = Tabs.players:AddLeftGroupbox(v.Name or "Unknown player", nil, true, true)
+	newgroup:AddButton({
+		Text = "Fling",
+		Tooltip = "Flings the target.",
+		Callback = function()
+			v.Character.Humanoid.PlatformStand = true
+			v.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-200,200), 300, math.random(-200,200))
+		end
+	})
+end
 	task.wait(1)
 
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
