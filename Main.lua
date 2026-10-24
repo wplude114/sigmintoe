@@ -232,9 +232,10 @@ getgenv().Bk = true
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti noise</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Fully reworked ESP</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
 	
-	inffirsttab:AddDivider()
+	inffirsttab2:AddDivider()
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Custom item skins</font>")
 
 	
