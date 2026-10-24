@@ -5880,18 +5880,43 @@ group:AddButton({
 	Text = "Fling self",
 	Tooltip = "Flings yourself.",
 	Callback = function()
-		game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true
-		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-200,200), 300, math.random(-200,200))
+		game.Players.LocalPlayer.Character.Humanoid.Sit = true
+		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-200,200), 100, math.random(-200,200))
 	end
 })
+
+group:AddButton({
+		Text = "Glitch",
+		Tooltip = "Force glitch yourself.",
+		Callback = function()
+			v.Character:PivotTo(v.Character:GetPivot() * CFrame.new(0,-1000000,0))
+		end
+	})
 for i,v in game.Players:GetPlayers() do
-	local newgroup = Tabs.players:AddLeftGroupbox(v.Name)
+	if v = game.Players.LocalPlayer then continue end
+	local newgroup = Tabs.players:AddLeftGroupbox(v.DisplayName)
 	newgroup:AddButton({
 		Text = "Fling",
-		Tooltip = "Flings the target.",
+		Tooltip = "Flings "..v.DisplayName,
 		Callback = function()
-			v.Character.Humanoid.PlatformStand = true
-			v.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-200,200), 300, math.random(-200,200))
+			v.Character.Humanoid.Sit = true
+			v.Character.HumanoidRootPart.Velocity = Vector3.new(math.random(-200,200), 100, math.random(-200,200))
+		end
+	})
+	
+	newgroup:AddButton({
+		Text = "Hide",
+		Tooltip = "Deletes "..v.DisplayName.."'s character.\nWARNING: This cannot be undone.",
+		Callback = function()
+			v.Character:Destroy()
+		end
+	})
+	
+	newgroup:AddButton({
+		Text = "Glitch",
+		Tooltip = "Forces "..v.DisplayName.." to get glitched.",
+		Callback = function()
+			v.Character:PivotTo(v.Character:GetPivot() * CFrame.new(0,-1000000,0))
 		end
 	})
 end
