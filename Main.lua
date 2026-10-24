@@ -3829,8 +3829,13 @@ local EasyNoiseConnection = workspace:WaitForChild("CurrentRooms").DescendantAdd
 	if not v:FindFirstChild("Collider") then return end
 
 	if EasyNoiseActive then
-		v.Collider.CanCollide = false
-		v.Collider.Velocity = Vector3.new(0,-200,0)
+		warn("Noise detected")
+		warn("Noise detected")
+		warn("Initiating emergency protocol: shut the fuck up")
+		repeat
+			v.Collider.CanCollide = false
+			v.Collider.Velocity = Vector3.new(0,-200,0)
+		until not v or not v:FindFirstChild("Collider")
 	end
 end)
 
