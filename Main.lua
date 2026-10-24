@@ -5828,7 +5828,7 @@ group:AddCheckbox("Progress", {
     Text = "Allow Progress",
     Default = false,
     Tooltip = "Disables the kick message when you reach the end of the floor.",
-	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>",
+	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>\nDisables the kick message when you reach the end of the floor.",
 	Disabled = true,
     Callback = function(enabled)
        AllowProgress = enabled
