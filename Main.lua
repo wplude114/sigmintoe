@@ -5823,31 +5823,32 @@ group:AddToggle("Gravity", {
         end
     end
 })
-
-group:AddCheckbox("Progress", {
-    Text = "Allow Progress",
-    Default = false,
-    Tooltip = "Disables the kick message when you reach the end of the floor.",
-	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>\nDisables the kick message when you reach the end of the floor.",
-	Disabled = true,
-    Callback = function(enabled)
-       AllowProgress = enabled
-    end
-})
 	
 local DoCollisionGroups = true
 group:AddToggle("CollisionGroups", {
     Text = "Disable Collision Groups",
     Default = false,
     Tooltip = "<font color='#ff9900'>⚠ May cause severe issues!</font>\nDisable collision groups.",
+	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>",
+	Disabled = true,
     Callback = function(enabled)
         DoCollisionGroups = not enabled
     end
 })
 local DCGConnection = game.RunService.RenderStepped:Connect(function()
-	workspace.TouchesUseCollisionGroups = DoCollisionGroups or true
+	--workspace.TouchesUseCollisionGroups = DoCollisionGroups or true
 end)
 group = Tabs.game:AddRightGroupbox('Panel')
+group:AddCheckbox("Progress", {
+    Text = "Allow Progress",
+    Default = false,
+    Tooltip = "Disables the kick message when you reach the end of the floor.",
+	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>",
+	Disabled = false,
+    Callback = function(enabled)
+       AllowProgress = enabled
+    end
+})
 group:AddButton("Unload", function()
 
 FlyModule:Unload()
