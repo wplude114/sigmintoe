@@ -5844,12 +5844,17 @@ group:AddCheckbox("Progress", {
     Default = false,
     Tooltip = "Disables the kick message when you reach the end of the floor.",
 	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>",
-	Disabled = false,
+	Disabled = true,
     Callback = function(enabled)
        AllowProgress = enabled
     end
 })
-group:AddButton("Unload Panel", function()
+group:AddButton({
+	Text = "Unload Panel",
+	Disabled = true,
+	Tooltip = "Completely unloads the panel, you cannot undo this.",
+	DoubleClick = true,
+	Func = function()
 
 pcall(function() FlyModule:Unload() end)
 	workspace.Gravity = 90
@@ -5921,8 +5926,9 @@ end
 
 	pcall(function() ESPLibrary:Unload() end)
 	pcall(function() Library:Unload() end)
-    getgenv().Bk = nil
-end)
+	pcall(function() script:Destroy() end) -- deadly!!
+end
+})
 
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
 
@@ -5930,7 +5936,6 @@ end)
 
 	local AboutGroup = Tabs['UI Settings']:AddRightGroupbox('Contributors')
 
-	AboutGroup:AddLabel("<font color='#15ff00'>bocaj11104</font> - Esp Library")
     AboutGroup:AddLabel("<font color='#15ff00'>Abbas</font> - Helped with \nPosition Spoof")
 	ThemeManager:SetLibrary(Library)
 	SaveManager:SetLibrary(Library)
