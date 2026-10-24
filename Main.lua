@@ -5893,7 +5893,7 @@ group:AddButton({
 		end
 	})
 for i,v in game.Players:GetPlayers() do
-	if v = game.Players.LocalPlayer then continue end
+	if v == game.Players.LocalPlayer then continue end
 	local newgroup = Tabs.players:AddLeftGroupbox(v.DisplayName)
 	newgroup:AddButton({
 		Text = "Fling",
