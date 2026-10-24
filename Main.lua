@@ -5833,7 +5833,7 @@ local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 	MenuGroup:AddDivider()
 task.wait()
-local group = Tabs.game:AddLeftGroupbox('World')
+group = Tabs.game:AddLeftGroupbox('World')
 group:AddToggle("Gravity", {
     Text = "Gravity Enabled",
     Default = true,
@@ -5848,7 +5848,7 @@ group:AddToggle("Gravity", {
     end
 })
 	
-local DoCollisionGroups = true
+DoCollisionGroups = true
 group:AddToggle("CollisionGroups", {
     Text = "Disable Collision Groups",
     Default = false,
@@ -5859,7 +5859,7 @@ group:AddToggle("CollisionGroups", {
         DoCollisionGroups = not enabled
     end
 })
-local DCGConnection = game.RunService.RenderStepped:Connect(function()
+DCGConnection = game.RunService.RenderStepped:Connect(function()
 	--workspace.TouchesUseCollisionGroups = DoCollisionGroups or true
 end)
 group = Tabs.game:AddRightGroupbox('Panel')
@@ -5889,13 +5889,13 @@ group:AddCheckbox("Progress", {
 	SaveManager:LoadAutoloadConfig()
 
 	if hookfunction then
-		local HttpService = game:GetService("HttpService")
-		local OrigSaveJSON = SaveManager.SaveJSON
-		local OrigLoadJSON = SaveManager.LoadJSON
+		HttpService = game:GetService("HttpService")
+		OrigSaveJSON = SaveManager.SaveJSON
+		OrigLoadJSON = SaveManager.LoadJSON
 		SaveManager.SaveJSON = function(self, ConfigName)
-			local Encoded, Ok = OrigSaveJSON(self, ConfigName)
+			Encoded, Ok = OrigSaveJSON(self, ConfigName)
 			if not Ok or type(Encoded) ~= "string" then return Encoded, Ok end
-			local ok, tbl = pcall(HttpService.JSONDecode, HttpService, Encoded)
+			ok, tbl = pcall(HttpService.JSONDecode, HttpService, Encoded)
 			if ok and type(tbl) == "table" then
 				tbl.bk_menu_keybind = {
 					Value = Options.MenuKeybind.Value,
@@ -5907,12 +5907,12 @@ group:AddCheckbox("Progress", {
 		end
 		SaveManager.LoadJSON = function(self, Content)
 			if type(Content) == "string" then
-				local ok, tbl = pcall(HttpService.JSONDecode, HttpService, Content)
+				ok, tbl = pcall(HttpService.JSONDecode, HttpService, Content)
 				if ok and type(tbl) == "table" and tbl.bk_menu_keybind then
-					local kb = tbl.bk_menu_keybind
+					kb = tbl.bk_menu_keybind
 					tbl.bk_menu_keybind = nil
 					Content = HttpService:JSONEncode(tbl)
-					local res = OrigLoadJSON(self, Content)
+					res = OrigLoadJSON(self, Content)
 					if res and Options.MenuKeybind and kb.Value then
 						task.defer(function()
 							Options.MenuKeybind:SetValue({Value = kb.Value, Mode = kb.Mode or "Toggle"})
