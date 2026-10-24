@@ -1,5 +1,4 @@
-print("it should work")
-local AllowProgress = false
+AllowProgress = false
 if true then
 
 repeat task.wait() until game:IsLoaded()
@@ -219,7 +218,7 @@ getgenv().Bk = true
 	})
 	local inffirsttab = infTab:AddTab('Update Log')
 		
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors/visions.</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors!</font>")
 
 	inffirsttab:AddDivider()
 		inffirsttab:AddLabel("<font color='#00ff00'>+ Easy noise exploit</font>")
@@ -2504,7 +2503,7 @@ ChestNames = {
     ["Locker_Small_Locked"] = "Locker [Locked]",
     ["Toolbox_Locked"] = "Toolbox [Locked]",
     ["Toolbox"] = "Toolbox",
-	["LootableCubby"] = "[is that a gubby? gubby this guby that]"
+	["LootableCubby"] = "Cubby"
 }
 
 ClearChestESP = function()
