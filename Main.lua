@@ -3815,6 +3815,25 @@ thirdtab:AddToggle("AntiJeff", {
     end
 })
 
+EasyNoiseActive = false
+thirdtab:AddToggle('EasyNoises', {
+    Text = 'Easy Noise',
+    Default = false,
+    Tooltip = "Makes noise die instantly when you grab it's tv.",
+	Callback = function(Value)
+		EasyNoiseActive = Value
+	end
+})
+local EasyNoiseConnection = workspace:WaitForChild("CurrentRooms").DescendantAdded:Connect(function(v)
+	if v.Name ~= "TV_Stand" then return end
+	if not v:FindFirstChild("Collider") then return end
+
+	if EasyNoiseActive then
+		v.Collider.CanCollide = false
+		v.Collider.Velocity = Vector3.new(0,-200,0)
+	end
+end)
+
 thirdtab:AddToggle("AntiFH", {
     Text = "Anti Figure Hearing",
     Default = false,
@@ -3981,28 +4000,6 @@ thirdtab:AddToggle('AntiShade', {
 
 	end
 })
-
-thirdtab:AddDivider()
-
-local EasyNoiseActive = false
-thirdtab:AddToggle('EasyStatic', {
-    Text = 'Easy Noise',
-    Default = false,
-    Tooltip = "Makes noise die instantly when you grab it's tv.",
-	Callback = function(Value)
-		EasyNoiseActive = Value
-	end
-})
-local EasyNoiseConnection = workspace:WaitForChild("CurrentRooms").DescendantAdded:Connect(function(v)
-	if v.Name ~= "TV_Stand" then return end
-	if not v:FindFirstChild("Collider") then return end
-
-	if EasyNoiseActive then
-		v.Collider.CanCollide = false
-		v.Collider.Velocity = Vector3.new(0,-200,0)
-	end
-end)
-	
 
 	local Event = RemotesFolder:FindFirstChild("CamLock")
 	local FastExita = false
