@@ -3825,10 +3825,9 @@ thirdtab:AddToggle('EasyNoises', {
 	end
 })
 local EasyNoiseConnection = workspace:WaitForChild("CurrentRooms").DescendantAdded:Connect(function(v)
-	print("Is this noise?")
 	if v.Name ~= "TV_Stand" then return end
 	warn("Noise detected")
-	if not v:FindFirstChild("Collider") then return end
+	if not v:WaitForChild("Collider") then return end
 	warn("Noise detected")
 	if EasyNoiseActive then
 		warn("Initiating emergency protocol: shut the fuck up")
