@@ -6,7 +6,7 @@ ValidTypes = {
 }
 --------------------------------------------------------------
 Library = {
-    OptimizationLevel = ValidTypes.OptimizationLevel.Default
+    OptimizationLevel = ValidTypes.OptimizationLevel.Optimized
     ESPMode = ValidTypes.ESP.Highlight,
     UpdateFreq = 0.5,
     AutoUpdate = true,
