@@ -202,13 +202,25 @@ getgenv().Bk = true
 	local infTab = Tabs.Info:AddLeftTabbox()
 	local inffirsttab = infTab:AddTab('Update Log')
 
-			inffirsttab:AddLabel("\n<DOORS>")
-    inffirsttab:AddLabel("<font color='#1eff00'>+ Stairwell & Archives support</font>")
+	inffirsttab:AddLabel("\n<DOORS>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors/visions.</font>")
 
 	inffirsttab:AddLabel("\n<SCRIPT>")
-    inffirsttab:AddLabel("<font color='#1eff00'>+ better esp</font>")
-    inffirsttab:AddLabel("<font color='#1eff00'>+ optimizations</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ New options in game tab!</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(use position spoof to prevent issues with stuttering.)</font>")
+    	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
+	
+	local inffirsttab2 = infTab:AddTab('Upcomming')
+	
+	inffirsttab2:AddLabel("\n<SCRIPT>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>- Anti ransom</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>- Anti alma</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>- Debug/Developer tab (in admin panel)</font>")
+	
+	inffirsttab2:AddLabel("\n<OTHER>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>- Custom item skins</font>")
 
+	
 	local mnTAB = Tabs.Main:AddLeftTabbox()
 	local firsttab = mnTAB:AddTab('General')
 
