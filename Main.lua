@@ -5875,8 +5875,8 @@ group:AddCheckbox("Progress", {
        AllowProgress = enabled
     end
 })
-newgroup = Tabs.players:AddRightGroupbox("You")
-newgroup:AddButton({
+group = Tabs.players:AddRightGroupbox("You")
+group:AddButton({
 	Text = "Fling self",
 	Tooltip = "Flings yourself.",
 	Callback = function()
@@ -5885,8 +5885,8 @@ newgroup:AddButton({
 	end
 })
 for i,v in game.Players:GetPlayers() do
-	newnewgroup = Tabs.players:AddLeftGroupbox(v.Name)
-	newnewgroup:AddButton({
+	local newgroup = Tabs.players:AddLeftGroupbox(v.Name)
+	newgroup:AddButton({
 		Text = "Fling",
 		Tooltip = "Flings the target.",
 		Callback = function()
