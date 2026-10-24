@@ -222,8 +222,9 @@ getgenv().Bk = true
     	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors/visions.</font>")
 
 	inffirsttab:AddDivider()
+		inffirsttab:AddLabel("<font color='#00ff00'>+ Easy noise exploit</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ New options in game tab!</font>")
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(use position spoof.)</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(best to use position spoof.)</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
 	
 	local inffirsttab2 = Tabs.Info:AddRightTabbox():AddTab('Upcomming')
@@ -3980,6 +3981,24 @@ thirdtab:AddToggle('AntiShade', {
 
 	end
 })
+
+thirdtab:AddDivider()
+
+thirdtab:AddToggle('EasyStatic', {
+    Text = 'Easy Noise',
+    Default = false,
+    Tooltip = "Makes noise die instantly when you grab it's tv.",
+})
+local EasyNoiseActive, EasyNoiseConnection = false, workspace.DescendantAdded:Connect(function(v)
+	if v.Name ~= "TV_Stand" or v.Parent == workspace:WaitForChild("Misc") then return end
+	if not v:FindFirstChild("Collider") then return end
+
+	if EasyNoiseActive then
+		v.Collider.CanCollide = false
+		v.Collider.Velocity = Vector3.new(0,-200,0)
+	end
+end)
+	
 
 	local Event = RemotesFolder:FindFirstChild("CamLock")
 	local FastExita = false
