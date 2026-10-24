@@ -5869,86 +5869,8 @@ group:AddCheckbox("Progress", {
        AllowProgress = enabled
     end
 })
-group:AddButton({
-	Text = "Unload Panel",
-	Disabled = true,
-	Tooltip = "Completely unloads the panel, you cannot undo this.",
-	DoubleClick = true,
-	Func = function()
-
-pcall(function() FlyModule:Unload() end)
-	workspace.Gravity = 90
-    if SpeedBoostConnection then
-        SpeedBoostConnection:Disconnect()
-        SpeedBoostConnection = nil
-    end
-	if DCGConnection then
-        DCGConnection:Disconnect()
-        DCGConnection = nil
-    end
-
-    if AutoBreakerConnection then
-    AutoBreakerConnection:Disconnect()
-    AutoBreakerConnection = nil
-end
 
 
-    SpeedBypassCoroutine = nil
-
-if NoAccelerationConnection then
-    NoAccelerationConnection:Disconnect()
-    NoAccelerationConnection = nil
-end
-
-local Acceleration = false
-if Character then
-    Character.LeftFoot.Massless = Acceleration
-    Character.LeftHand.Massless = Acceleration
-    Character.LeftLowerArm.Massless = Acceleration
-    Character.LeftLowerLeg.Massless = Acceleration
-    Character.LeftUpperArm.Massless = Acceleration
-    Character.LeftUpperLeg.Massless = Acceleration
-    Character.LowerTorso.Massless = Acceleration
-    Character.RightFoot.Massless = Acceleration
-    Character.RightHand.Massless = Acceleration
-    Character.RightLowerArm.Massless = Acceleration
-    Character.RightLowerLeg.Massless = Acceleration
-    Character.RightUpperArm.Massless = Acceleration
-    Character.RightUpperLeg.Massless = Acceleration
-    Character.UpperTorso.Massless = Acceleration
-end
-
-    if AmbientToggleConnection then
-        AmbientToggleConnection:Disconnect()
-        AmbientToggleConnection = nil
-    end
-
-    if AmbientLockConnection then
-        AmbientLockConnection:Disconnect()
-        AmbientLockConnection = nil
-    end
-
-if FovLockConnection then
-    FovLockConnection:Disconnect()
-    FovLockConnection = nil
-end
-
-CurrentFov = DefaultFov
-
-local cam = workspace.CurrentCamera
-if cam then
-    TweenService:Create(
-        cam,
-        TweenInfo.new(0.25, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
-        { FieldOfView = DefaultFov }
-    ):Play()
-end
-
-	pcall(function() ESPLibrary:Unload() end)
-	pcall(function() Library:Unload() end)
-	pcall(function() script:Destroy() end) -- deadly!!
-end
-})
 	MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightControl', NoUI = true, Text = 'Menu keybind' })
 
 	Library.ToggleKeybind = Options.MenuKeybind
