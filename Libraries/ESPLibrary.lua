@@ -15,7 +15,7 @@ Library = {
 
     -- visuals
     --- text
-    Font = enum.Font.RobotoMono,
+    Font = Enum.Font.RobotoMono,
     TextSize = 20,
     --TextPosition = ValidTypes.Positions.Center
 
