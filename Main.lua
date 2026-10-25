@@ -1422,16 +1422,19 @@ task.spawn(function()
 end)
 
 SecTab:AddDivider() SecTab:AddDivider()
-ObjectiveColor = Color3.fromRGB(26, 255, 0)
-DoorESPColor   = Color3.fromRGB(0, 199, 255)
-SpotESPColor   = Color3.fromRGB(255, 174, 43)
-ItemESPColor   = Color3.fromRGB(170, 0, 255)
+ObjectiveColor = Color3.new(0,1,0)
+DoorESPColor   = Color3.new(0,1,1)
+SpotESPColor   = Color3.new(1,1,0)
+ItemESPColor   = Color3.new(1,0,1)
+GoldESPColor   = Color3.new(0.5,1,0)
+EntityESPColor = Color3.new(1,0,0)
 
 local ESPConnections = {}
 local ObjectiveESP, ObjectiveESPEnabled = {}, false
 local EntityESP, EntityESPEnabled = {}, false
 local DoorESP, DoorESPEnabled = {}, false
 local ItemESP, ItemESPEnabled = {}, false
+local GoldESP, GoldESPEnabled = {}, false
 local ESPEnabled = true
 	-- {Object:BasePart|Model, Text:string, Color:Color3}
 local Objectives = {
@@ -1499,6 +1502,27 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 	end
 end)
 
+ESPConnections.Gold = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
+	if not GoldESPEnabled then return end
+	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
+	
+	if RoomModel then
+		for _,obj in GoldESP do ESPLibrary:RemoveESP(obj) end
+		GoldESP = {}
+		for _,obj in RoomModel:GetDescendants() do
+			if obj:IsA("Model") and obj.Name == "GoldPile" then
+				ESPLibrary:AddESP({
+					Object = obj,
+					Text = "Gold",
+					Color = GoldESPColor,
+					MaxDistance = 150
+				})
+				GoldESP[obj] = obj
+			end
+		end
+	end
+end)
+
 local Entities = {
 		["Drones"] = "Drone",
 		["TellerRig"] = "Teller",
@@ -1538,7 +1562,7 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 		ESPLibrary:AddESP({
 			Object = obj,
 			Text = Entities[obj.Name],
-			Color = Color3.new(1,0,0),
+			Color = EntityESPColor,
 			MaxDistance = 250
 		})
 		EntityESP[obj] = obj
@@ -1619,7 +1643,7 @@ ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
 		ESPLibrary:AddESP({
 			Object = obj,
 			Text = ItemNames[obj.Name],
-			Color = Color3.new(1,0,1)
+			Color = ItemESPColor
 		})
 		ItemESP[obj] = obj
 	end
@@ -1656,6 +1680,14 @@ if true then
     	Tooltip	= "Show ESP for the next rooms door.",
     	Callback = function(enabled)
     	    DoorESPEnabled = enabled
+    	end
+	})
+	SecTab:AddToggle("GoldESP", {
+   		Text    = "Gold",
+    	Default = false,
+    	Tooltip	= "Show ESP gold piles.",
+    	Callback = function(enabled)
+    	    GoldESPEnabled = enabled
     	end
 	})
 end
