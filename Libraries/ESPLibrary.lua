@@ -141,7 +141,7 @@ function Library:AddESP(params)
 			Text = params.Text or (obj.Name or "Object")
 		}
 	end
-	obj.Removing:Once(function() Library:RemoveESP(obj) end)
+	obj.Destroying:Once(function() Library:RemoveESP(obj) end)
 	debugPrint("Object successfully added.")
 end
 --------------------------------------------------------------
