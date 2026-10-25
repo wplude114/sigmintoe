@@ -23,6 +23,7 @@ Library = {
     FillTransparency = 0.75,
     OutlineTransparency = 0,
     FadeTime = 0,
+	DefaultMaxDistance = 100,
 
 	-- data/instances
     Objects = {},
@@ -133,12 +134,14 @@ function Library:AddESP(params)
 	if obj == params then
 		Library.ObjectData[obj] = {
 			Color = Color3.New(1,1,1),
-			Text = (obj.Name or "Object")
+			Text = (obj.Name or "Object"),
+			MaxDistance = Library.DefaultMaxDistance
 		}
 	else
 		Library.ObjectData[obj] = {
 			Color = params.Color or Color3.New(1,1,1),
-			Text = params.Text or (obj.Name or "Object")
+			Text = params.Text or (obj.Name or "Object"),
+			MaxDistance = params.MaxDistance or Library.DefaultMaxDistance
 		}
 	end
 	obj.Destroying:Once(function() Library:RemoveESP(obj) end)
@@ -157,6 +160,9 @@ function Library.Update(dt)
 			Library:RemoveESP(obj)
 		end
 		if obj and Library.ObjectData[obj] then
+			objOutOfRange = false
+			local Distance = ((obj:IsA("Model") and obj:GetPivot().Position or obj.Position) - Camera.CFrame.Position).Magnitude
+			if Distance > obj.MaxDistance then objOutOfRange = true end
 			objData = Library.ObjectData[obj]
 			-- Create Highlight
 			if not Library.Highlights[obj] then
@@ -171,6 +177,12 @@ function Library.Update(dt)
 			if objHighlight.OutlineColor ~= objData.Color then objHighlight.OutlineColor = objData.Color end
 			if objHighlight.FillTransparency ~= Library.FillTransparency then objHighlight.FillTransparency = Library.FillTransparency end
 			if objHighlight.OutlineTransparency ~= Library.OutlineTransparency then objHighlight.OutlineTransparency = Library.OutlineTransparency end
+
+			if objOutOfRange then 
+				objHighlight.Adornee = nil
+			else
+				Library.Highlights[obj].Adornee = obj
+			end
 
 			-- Create Text
 			if not Library.TextLabels[obj] then
@@ -194,7 +206,8 @@ function Library.Update(dt)
 			local objScreenPosition, objOnScreen = Camera:WorldToViewportPoint(obj:IsA("Model") and obj:GetPivot().Position or obj.Position)
 			if not objScreenPosition then return end
 			objText.Visible = objOnScreen
-			if objOnScreen then
+			if objOutOfRange then objText.Visible = false end
+			if objOnScreen and not objOutOfRange then
 				objText.Position = UDim2.fromScale(
 					objScreenPosition.X / Camera.ViewportSize.X,
 					objScreenPosition.Y / Camera.ViewportSize.Y
