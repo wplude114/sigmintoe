@@ -22,7 +22,7 @@ Library = {
     --- ESP
     FillTransparency = 0.8,
     OutlineTransparency = 0,
-    FadeTime = 0
+    FadeTime = 0,
     
     Objects = {},
 	ObjectData = {},
