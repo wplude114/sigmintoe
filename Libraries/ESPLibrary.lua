@@ -147,7 +147,6 @@ end
 function Library.Update(dt)
 	if Library.Unloaded then return end
 	Library.TimeSinceLastUpdate += dt
-	debugPrint(TimeSinceLastUpdate)
 	if Library.TimeSinceLastUpdate < Library.UpdateFreq then return end
 	Library.TimeSinceLastUpdate = 0
 
