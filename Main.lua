@@ -1467,7 +1467,7 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 			end
 			if obj.Name == "Wax_Door" and obj:IsA("Model") then
 				ESPLibrary:AddESP({
-					Object = obj:FindFirstChild("Door") or obj,,
+					Object = obj:FindFirstChild("Door") or obj,
 					Text = "Skeleton Key Door",
 					Color = DoorESPColor
 				})
