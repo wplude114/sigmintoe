@@ -179,7 +179,7 @@ function Library.Update(dt)
 			end
 			objText = Library.TextLabels[obj]
 			-- Update Text
-			if objText.TextColor ~= objData.Color then objText.TextColor = objData.Color end
+			if objText.TextColor3 ~= objData.Color then objText.TextColor3 = objData.Color end
 			if objText.TextSize ~= Library.TextSize then objText.TextSize = Library.TextSize end
 			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
