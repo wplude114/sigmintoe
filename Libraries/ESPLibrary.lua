@@ -6,9 +6,10 @@ ValidTypes = {
 }
 --------------------------------------------------------------
 Library = {
-    OptimizationLevel = ValidTypes.OptimizationLevel.Optimized
+	DebugOutput = false
+    OptimizationLevel = ValidTypes.OptimizationLevel.Default
     ESPMode = ValidTypes.ESP.Highlight,
-    UpdateFreq = 0.5,
+    UpdateFreq = 0.1,
     AutoUpdate = true,
     TimeSinceLastUpdate = 0,
 
@@ -16,19 +17,17 @@ Library = {
     --- text
     Font = enum.Font.RobotoMono,
     TextSize = 20,
-    TextPosition = ValidTypes.Positions.Center
+    --TextPosition = ValidTypes.Positions.Center
 
     --- ESP
     FillTransparency = 0.8,
     OutlineTransparency = 0,
-    FadeTime = 0.5
+    FadeTime = 0
     
     Objects = {},
+	ObjectData = {},
     Highlights = {},
-    Billboards = {},
-    Frames = {},
-    Labels = {},
-    Texts = {},
+    TextLabels = {},
     Colors = {},
     
 } Library.Unloaded = false
@@ -42,7 +41,7 @@ local UserInputService = CloneReference(game:GetService("UserInputService"))
 local Debris = CloneReference(game:GetService("Debris"))
 local TweenService = CloneReference(game:GetService("TweenService"))
 local LocalPlayer = Players.LocalPlayer
-local Camera - Workspace.CurrentCamera
+local Camera = Workspace.CurrentCamera
 --------------------------------------------------------------
 function Library:GenerateRandomString(Length)
 	local Chars = {}
@@ -54,15 +53,22 @@ function Library:GenerateRandomString(Length)
     local Result = table.concat(Chars)
 	return Result
 end
+
+local function GetHiddenUI()
+	if gethui then return gethui() end
+	local Folder = Instance.new("Folder", CoreGui)
+	Folder.Name = ("%032x"):format(math.random(0, 2^31))
+	return Folder
+end
 --------------------------------------------------------------
-local MainUi = Instance.new("GuiMain", CoreGui)
-MainUi.Name = Library:GenerateRandomString(32)
-MainUi.ResetOnSpawn = false
-MainUi.IgnoreGuiInset = true
+local Hui = GetHittenUI()
+Hui.Name = Library:GenerateRandomString(32)
+Hui.ResetOnSpawn = false
+Hui.IgnoreGuiInset = true
 --------------------------------------------------------------
 local Folders = {}
 function AddFolder(Name:string)
-    local NewFolder = Instance.New("Folder", MainUi)
+    local NewFolder = Instance.New("Folder", Hui)
     NewFolder.Name = Library:GenerateRandomString()
     Folders[Name] = NewFolder
     return NewFolder
@@ -70,6 +76,9 @@ end
 --------------------------------------------------------------
 local HighlightsFolder = AddFolder("Highlights")
 local BillboardsFolder = AddFolder("Billboards")
+local TextHolder = Instance.new("Frame", Hui)
+TextHolder.Size = UDim2.fromScale(1,1)
+TextHolder.BackgroundTransparency = 1
 --------------------------------------------------------------
 local Tweens = {
     QuadOut = TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -84,55 +93,116 @@ end
 --------------------------------------------------------------
 local function Library:AddESP(params)
     if Library.Unloaded then return end
-    local obj = params.Object
+    local obj = params.Object or params
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
-
-    if Library.Highlights[obj] then
-        if Library.OptimizationLevel > 0 then return end
-        Library.Highlights[obj]:Destroy()
-        Library.Highlights[obj] = nil
-    end
-
-    if Library.ESPMode == ValidTypes.ESP.Highlight then
-        local Highlight = Instance.new("Highlight")
-	    Highlight.FillTransparency = 1
-	    Highlight.OutlineTransparency = 1
-	    Highlight.Name = Library:GenerateRandomString()
-	    Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-	    Highlight.Adornee = Object
-	    Highlight.Parent = HighlightsFolder
-	    Library.Highlights[Object] = Highlight
-
-        local TextFrame = Instance.new("Frame")
-	    TextFrame.Visible = false
-	    TextFrame.Name = Library:GenerateRandomString()
-	    TextFrame.Size = UDim2.fromScale(1, 1)
-	    TextFrame.BackgroundTransparency = 1
-	    TextFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	    TextFrame.Parent = BillboardsFolder
-
-	    local TextLabel = Instance.new("TextLabel")
-	    TextLabel.Name = Library:GenerateRandomString()
-	    TextLabel.BackgroundTransparency = 1
-	    TextLabel.Text = params.Text
-	    TextLabel.TextTransparency = 1
-	    TextLabel.TextStrokeTransparency = Library.TextOutlineTransparency
-	    TextLabel.Size = UDim2.new(1, 0, 1, 0)
-	    TextLabel.Font = Library.Font
-	    TextLabel.TextSize = Library.TextSize
-	    TextLabel.RichText = true
-	    TextLabel.TextColor3 = params.Color
-	    TextLabel.Parent = TextFrame
-
-        Library.Frames[Object] = TextFrame
-	    Library.Labels[Object] = TextLabel
-	    Library.Colors[Object] = params.Color
-	    Library.Texts[Object] = params.Text
-	    Library.Objects[Object] = Object
-
-        TweenObject(Highlight, Tweens.QuadOut, {FillTransparency = Library.FillTransparency, OutlineTranspatenct = Library.OutlineTransparency})
-        TweenObject(TextLabel, Tweens.QuadOut, {TextTransparency = 0})
-    end
+	
+	if Library.Objects[obj] then return end
+	Library.Objects[obj] = obj
+	if obj == params then
+		Library.ObjectData[obj] = {
+			Color = Color3.New(1,1,1),
+			Text = (obj.Name or "Object")
+		}
+	else
+		Library.ObjectData[obj] = {
+			Color = params.Color or Color3.New(1,1,1),
+			Text = params.Text or (obj.Name or "Object")
+		}
+	end
 end
 
+local function Library:RemoveESP(Object)
+	if Library.Unloaded then return end
+	local obj = Object
+    if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
+	if Library.Objects[obj] then
+		Library.Objects[obj] = nil
+		Library.ObjectData[obj] = nil
+		if Library.Highlights[obj] then
+			Library.Highlights[obj]:Destroy()
+			Library.Highlights[obj] = nil
+		end
+		if Library.TextLabels[obj] then
+			Library.TextLabels[obj]:Destroy()
+			Library.TextLabels[obj] = nil
+		end
+	end
+end
+--------------------------------------------------------------
+function Library.Update(dt)
+	if Library.Unloaded then return end
+	Library.TimeSinceLastUpdate += dt
+	if Library.TimeSinceLastUpdate < Library.UpdateFreq then return end
+	Library.TimeSinceLastUpdate = 0
+
+	for objId, obj in Library.Objects do
+		if obj and Library.ObjectData[obj] then
+			objData = Library.ObjectData[obj]
+			-- Create Highlight
+			if not Library.Highlights[obj] then
+				Library.Highlights[obj] = Instance.new("Highlight", HighlightsFolder)
+				Library.Highlights[obj].Name = GenerateRandomString()
+				Library.Highlights[obj].DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				Library.Highlights[obj].Adornee = obj
+			end
+			objHighlight = Library.Highlights[obj]
+			-- Update Highlight
+			if objHighlight.FillColor ~= objData.Color then objHighlight.FillColor = objData.Color end
+			if objHighlight.OutlineColor ~= objData.Color then objHighlight.OutlineColor = objData.Color end
+			if objHighlight.FillTransparency ~= Library.FillTransparency then objHighlight.FillTransparency = Library.FillTransparency end
+			if objHighlight.OutlineTransparency ~= Library.OutlineTransparency then objHighlight.OutlineTransparency = Library.OutlineTransparency end
+
+			-- Create Text
+			if not Library.TextLabels[obj] then
+				Library.TextLabels[obj] = Instance.new("TextLabel", TextHolder)
+				Library.TextLabels[obj].Name = GenerateRandomString()
+				Library.TextLabels[obj].BackgroundTransparency = 1
+				Library.TextLabels[obj].Size = UDim2.fromOffset(21,21)
+				Library.TextLabels[obj].RichText = true
+				Library.TextLabels[obj].AnchorPoint = Vector2.new(0.5,0.5)
+				Library.TextLabels[obj].Text = objData.Text
+			end
+			objText = Library.TextLabels[obj]
+			-- Update Text
+			if objText.TextColor ~= objData.Color then objText.TextColor = objData.Color end
+			if objText.TextSize ~= Library.TextSize then objText.TextSize = Library.TextSize end
+			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
+			if objText.Font ~= Library.Font then objText.Font = Library.Font end
+
+			-- Position Text
+			local objScreenPosition, objOnScreen = Camera:WorldToViewportPoint(obj:IsA("Model") and obj.PrimaryPart.Cframe or obj.CFrame)
+			objText.Visible = objOnScreen
+			if objOnScreen then
+				objText.Position = UDim2.fromScale(
+					objScreenPosition.X / Camera.ViewportSize.X,
+					objScreenPosition.Y / Camera.ViewportSize.Y
+				)
+			end
+		end
+	end
+end
+--------------------------------------------------------------
+function Library:ClearAllESP()
+	if Library.Unloaded then return end
+	for objId, obj in Library.Objects do
+		Library:RemoveESP(obj)
+	end
+end
+
+function Library:Unload()
+	if Library.Unloaded then return end
+	Library:ClearAllESP()
+	TextHolder:Destroy()
+	for _,v in Folders do v:Destroy() end
+	CameraConnection:Disconnect()
+	Library.Unloaded = true
+end
+--------------------------------------------------------------
+CameraConnection = Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+	Camera = Workspace.CurrentCamera
+end)
+--------------------------------------------------------------
+if getgenv then
+	getgenv().ESPLibrary = Library
+end
 return Library
