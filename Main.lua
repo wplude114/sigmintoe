@@ -217,6 +217,7 @@ getgenv().Bk = true
 	annouceGroup:AddDivider()
     	annouceGroup:AddLabel("Reworked ESP module is\nalmost done!")
     	annouceGroup:AddLabel("It will be added soon, still\nworking on tracers, arrows, etc.")
+	local infTab = Tabs.Info:AddLeftTabbox()
 	local inffirsttab = infTab:AddTab('Update Log')
 
 	inffirsttab:AddLabel("<b>10/24/2026</b>")
