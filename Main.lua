@@ -1443,13 +1443,10 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 	
 	if RoomModel then
 		local RoomIsWorthChecking = false
-		for i,v in Objectives do
-			if RoomModel:FindFirstChild(i, true) then RoomIsWorthChecking = true end
-		end
+		if RoomModel.Door and RoomModel.Door:FindFirstChild("Lock", true) then RoomIsWorthChecking = true end
 		if not RoomIsWorthChecking then return end
 		for _,obj in ObjectiveESP do ESPLibrary:RemoveESP(obj) end
 		ObjectiveESP = {}
-		task.wait()
 		for _,obj in RoomModel:GetDescendants() do
 			if Objectives[obj.Name] then
 				ESPLibrary:AddESP({
