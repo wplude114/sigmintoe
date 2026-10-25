@@ -1,4 +1,5 @@
 AllowProgress = false
+IsTester = (game.Players.LocalPlayer.UserId == 9839357097)
 if true then
 
 repeat task.wait() until game:IsLoaded()
@@ -1412,7 +1413,7 @@ task.spawn(function()
 end)
 
 SecTab:AddDivider()
-
+SecTab:AddLabel("ESP Options")
 ObjectiveColor = Color3.fromRGB(26, 255, 0)
 DoorESPColor   = Color3.fromRGB(0, 199, 255)
 SpotESPColor   = Color3.fromRGB(255, 174, 43)
@@ -1430,11 +1431,38 @@ SecTab:AddToggle("ESPToggle", {
     Text    = "ESP Enabled",
     Default = false,
     DisabledTooltip	= "This feature is disabled for now.",
-	Disabled = true,
+	Disabled = not IsTester,
     Callback = function(enabled)
         -- not available at the moment.
     end
 })
+
+if IsTester then
+	SecTab:AddToggle("ObjectivesESP", {
+   		Text    = "Objectives",
+    	Default = false,
+    	Tooltip	= "Show ESP for things required to get to the next room.",
+    	Callback = function(enabled)
+    	    -- not available at the moment.
+    	end
+	})
+	SecTab:AddToggle("ItemESP", {
+   		Text    = "Items",
+    	Default = false,
+    	Tooltip	= "Show ESP for items.",
+    	Callback = function(enabled)
+    	    -- not available at the moment.
+    	end
+	})
+	SecTab:AddToggle("DoorESP", {
+   		Text    = "Doors",
+    	Default = false,
+    	Tooltip	= "Show ESP for the next rooms door.",
+    	Callback = function(enabled)
+    	    -- not available at the moment.
+    	end
+	})
+end
 
 notified = {}
 notifiedHalt = false
