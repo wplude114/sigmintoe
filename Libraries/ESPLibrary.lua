@@ -152,6 +152,10 @@ function Library.Update(dt)
 	Library.TimeSinceLastUpdate = 0
 
 	for objId, obj in Library.Objects do
+		if not obj or (obj and not obj:IsDescendantOf(workspace) or obj:IsDescendantOf(LocalPlayer.Character)) then
+			debugPrint(`{obj} not found, removing..`)
+			Library:RemoveESP(obj)
+		end
 		if obj and Library.ObjectData[obj] then
 			objData = Library.ObjectData[obj]
 			-- Create Highlight
