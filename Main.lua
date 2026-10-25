@@ -215,6 +215,7 @@ getgenv().Bk = true
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP!</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Tester Permissions!</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Enabled the Allow Progress button.</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Anti alma!</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Old ESP removed.</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Less ESP settings. (temp)</font>")
 		inffirsttab:AddLabel("\n\n")
@@ -232,7 +233,6 @@ getgenv().Bk = true
 	local inffirsttab2 = infTab:AddTab('Upcomming')
 		
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
-		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti noise</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Custom item skins</font>")
@@ -1502,6 +1502,7 @@ end)
 local Entities = {
 		["Drones"] = "Drone",
 		["TellerRig"] = "Teller",
+		["Alma"] = "Alma",
 		["DronesStampede"] = "Drone Stampede",
 		["BashMoving"] = "Bash",
 		["Scribbles"] = "Scribbles",
@@ -2394,6 +2395,22 @@ thirdtab:AddToggle("AntiDuper", {
         end
     end
 })
+
+AntiAlmaEnabled = false
+thirdtab:AddToggle('AntiAlmas', {
+    Text = 'Anti alma',
+    Default = false,
+    Tooltip = "Disables alma completely.",
+	Callback = function(Value)
+		AntiAlmaEnabled = Value
+	end
+})
+local AntiAlmaConnection = workspace.ChildAdded:Connet(function(obj)
+	if not AntiAlmaEnabled then return end
+	if obj and obj.Name == "Alma" and obj:IsA("Model") then
+		obj:Destroy()
+	end
+end)
 
 thirdtab:AddToggle("AntiGloomEggs", {
     Text = "Anti Gloombat Eggs",
