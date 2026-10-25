@@ -1421,6 +1421,7 @@ ItemESPColor   = Color3.fromRGB(170, 0, 255)
 
 local ESPConnections = {}
 local ObjectiveESP, ObjectiveESPEnabled = {}, false
+local EntityESP, EntityESPEnabled = {}, false
 local DoorESP, DoorESPEnabled = {}, false
 local ESPEnabled = false
 	-- {Object:BasePart|Model, Text:string, Color:Color3}
@@ -1492,6 +1493,26 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 	end
 end)
 
+local Entities = {
+		["Figure"] = "The Figure",
+		["Creak"] = "Creak",
+		["NoiseModel"] = "Noise",
+		["TV_Stand"] = "Noise (TV)",
+}
+ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
+	if not EntityESPEnabled then return end
+	if not obj:IsA("Model") then return end
+
+	if Entities[obj.Name] then
+		ESPLibrary:AddESP({
+			Object = obj,
+			Text = "Skeleton Key Door",
+			Color = Color3.new(1,0,0)
+		})
+		EntityESP[obj] = obj
+	end
+end)
+
 SecTab:AddToggle("ESPToggle", {
     Text    = "ESP Enabled",
     Default = false,
@@ -1509,6 +1530,14 @@ if IsTester then
     	Tooltip	= "Show ESP for things required to get to the next room.",
     	Callback = function(enabled)
     	    ObjectiveESPEnabled = enabled
+    	end
+	})
+	SecTab:AddToggle("EntityESP", {
+   		Text    = "Entities",
+    	Default = false,
+    	Tooltip	= "Show ESP for threats/entities.",
+    	Callback = function(enabled)
+    	    EntityESPEnabled = enabled
     	end
 	})
 	SecTab:AddToggle("ItemESP", {
