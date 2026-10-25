@@ -1426,7 +1426,8 @@ local DoorESP, DoorESPEnabled = {}, false
 local ESPEnabled = false
 	-- {Object:BasePart|Model, Text:string, Color:Color3}
 local Objectives = {
-		["KeyObtain"] = "Room key"
+		["KeyObtain"] = "Room key",
+		["LeverForGate"] = "Lever"
 }
 ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not ObjectiveESPEnabled then return end
@@ -1447,7 +1448,7 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 	end
 end)
 
-local DoorModelNames = {["Door"] = true, ["DoorNormal"] = true}
+local DoorModelNames = {["Door"] = true}
 ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not DoorESPEnabled then return end
 	print(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
@@ -1459,7 +1460,7 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 		for _,obj in RoomModel:GetDescendants() do
 			if DoorModelNames[obj.Name] and obj:IsA("Model") then
 				ESPLibrary:AddESP({
-					Object = obj:FindFirstChild("Door") or obj,
+					Object = obj,
 					Text = obj:FindFirstChild("Lock", true) and "Door (Locked)" or "Door",
 					Color = DoorESPColor
 				})
@@ -1467,8 +1468,16 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 			end
 			if obj.Name == "Wax_Door" and obj:IsA("Model") then
 				ESPLibrary:AddESP({
-					Object = obj:FindFirstChild("Door") or obj,
+					Object = obj,
 					Text = "Skeleton Key Door",
+					Color = DoorESPColor
+				})
+				DoorESP[obj] = obj
+			end
+			if obj.Name == "DoorNormal" and obj:IsA("Model") then
+				ESPLibrary:AddESP({
+					Object = obj,
+					Text = "Side Room Door",
 					Color = DoorESPColor
 				})
 				DoorESP[obj] = obj
