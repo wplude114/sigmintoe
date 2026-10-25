@@ -9,7 +9,7 @@ Library = {
 	DebugOutput = false,
     OptimizationLevel = ValidTypes.OptimizationLevel.Default,
     ESPMode = ValidTypes.ESP.Highlight,
-    UpdateFreq = 0.1,
+    UpdateFreq = 0.05,
     AutoUpdate = true,
     TimeSinceLastUpdate = 0,
 
@@ -20,7 +20,7 @@ Library = {
     --TextPosition = ValidTypes.Positions.Center
 
     --- ESP
-    FillTransparency = 0.8,
+    FillTransparency = 0.75,
     OutlineTransparency = 0,
     FadeTime = 0,
 
@@ -172,6 +172,7 @@ function Library.Update(dt)
 				Library.TextLabels[obj] = Instance.new("TextLabel", TextHolder)
 				Library.TextLabels[obj].Name = Library:GenerateRandomString()
 				Library.TextLabels[obj].BackgroundTransparency = 1
+				Library.TextLabels[obj].TextStrokeTransparency = 0
 				Library.TextLabels[obj].Size = UDim2.fromOffset(21,21)
 				Library.TextLabels[obj].RichText = true
 				Library.TextLabels[obj].AnchorPoint = Vector2.new(0.5,0.5)
