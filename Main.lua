@@ -1496,7 +1496,7 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 end)
 
 local Entities = {
-		["Drones"] = "Drone"
+		["Drones"] = "Drone",
 		["Creak"] = "Creak",
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
