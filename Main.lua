@@ -1607,7 +1607,6 @@ ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
 		ItemESP[obj] = obj
 	end
 end)
-ESPConnections.Items:Disconnect()
 
 SecTab:AddToggle("ESPToggle", {
     Text    = "ESP Enabled",
