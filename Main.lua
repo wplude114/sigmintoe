@@ -1423,6 +1423,7 @@ local ESPConnections = {}
 local ObjectiveESP, ObjectiveESPEnabled = {}, false
 local EntityESP, EntityESPEnabled = {}, false
 local DoorESP, DoorESPEnabled = {}, false
+local ItemESP, ItemESPEnabled = {}, false
 local ESPEnabled = true
 	-- {Object:BasePart|Model, Text:string, Color:Color3}
 local Objectives = {
@@ -1436,6 +1437,7 @@ local Objectives = {
 		["ArchivesTerminal"] = "Terminal",
 		["FuseObtain"] = "Fuse",
 		["MinesGenerator"] = "Generator",
+		["LiveHintBook"] = "Hint Book"
 }
 ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not ObjectiveESPEnabled then return end
@@ -1488,7 +1490,6 @@ end)
 
 local Entities = {
 		["Creak"] = "Creak",
-		["Drone"] = "Drone",
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
 		["RushMoving"] = "Rush",
@@ -1527,9 +1528,90 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 	end
 end)
 
+local ItemNames = {
+    ["Lighter"] = "Lighter",
+    ["Flashlight"] = "Flashlight",
+    ["Lockpick"] = "Lockpicks",
+    ["Vitamins"] = "Vitamins",
+    ["Bandage"] = "Bandage",
+    ["StarVial"] = "Vial of Starlight",
+    ["StarBottle"] = "Bottle of Starlight",
+    ["StarJug"] = "Barrel of Starlight",
+    ["Shakelight"] = "Gummy Flashlight",
+    ["Straplight"] = "Straplight",
+    ["Bulklight"] = "Spotlight",
+    ["Battery"] = "Battery",
+    ["Candle"] = "Candle",
+    ["Crucifix"] = "Crucifix",
+    ["CrucifixWall"] = "Crucifix",
+    ["Glowsticks"] = "Glowstick",
+    ["SkeletonKey"] = "Skeleton Key",
+    ["Candy"] = "Candy",
+    ["ShieldMini"] = "Mini Shield Potion",
+    ["ShieldBig"] = "Big Shield Potion",
+    ["BandagePack"] = "Bandage Pack",
+    ["BatteryPack"] = "Battery Pack",
+    ["RiftCandle"] = "Moonlight Candle",
+    ["LaserPointer"] = "Laser Pointer",
+    ["HolyGrenade"] = "Hold Hand Grenade",
+    ["Shears"] = "Shears",
+    ["Smoothie"] = "Smoothie",
+    ["Cheese"] = "Cheese",
+    ["Bread"] = "Bread",
+    ["AlarmClock"] = "Alarm Clock",
+    ["RiftSmoothie"] = "Moonlight Smoothie",
+    ["GweenSoda"] = "Gween Soda",
+    ["GlitchCube"] = "Glitch Fragment",
+    ["Scanner"] = "NVCS-3000",
+    ["Bomb"] = "Bomb",
+    ["Knockbomb"] = "Knockbomb",
+    ["Nanner"] = "Nanner",
+    ["BigBomb"] = "Big Bomb",
+    ["SnakeBox"] = "Hiding Box",
+    ["GoldGun"] = "Golden Gun",
+    ["StopSign"] = "Stop Sign",
+    ["TipJar"] = "Tip Jar",
+    ["Lantern"] = "Lantern",
+    ["IronKey"] = "Iron Key",
+    ["LotusPetal"] = "Lotus Petal",
+    ["Compass"] = "Compass",
+    ["LotusPetalPickup"] = "Lotus Petal",
+    ["LanternLitItem"] = "Lantern",
+    ["KeyIron"] = "Iron Key",
+    ["IronKeyForCrypt"] = "Iron Key",
+    ["Multitool"] = "Multitool",
+    ["RiftJar"] = "Rift Jar",
+    ["AloeVera"] = "Aloe Vera",
+    ["Donut"] = "Donut",
+    ["Lotus"] = "Lotus",
+    ["BoxingGloves"] = "Boxing Gloves",
+    ["Green_Herb"] = "Herb of Viridis",
+    ["Pizza"] = "Pizza Slice",
+    ["PaperPlane"] = "Paper Airplane",
+    ["WaterCup"] = "Water Cup",
+    ["LunchBox"] = "Lunch Box",
+    ["Briefcase"] = "Briefcase",
+    ["ArchivesStorageBox"] = "Storage Box",
+}
+
+ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
+	if not ItemESPEnabled then return end
+	if not obj:IsA("Model") then return end
+
+	if ItemNames[obj.Name] and obj:FindFirstChildWhichIsA("ProximityPrompt", true) then
+		ESPLibrary:AddESP({
+			Object = obj,
+			Text = ItemNames[obj.Name],
+			Color = Color3.new(1,0,1)
+		})
+		ItemESP[obj] = obj
+	end
+end)
+ESPConnections.Items:Disconnect()
+
 SecTab:AddToggle("ESPToggle", {
     Text    = "ESP Enabled",
-    Default = false,
+    Default = true,
     DisabledTooltip	= "This feature is disabled for now.",
 	Disabled = not IsTester,
     Callback = function(enabled)
@@ -1558,9 +1640,8 @@ if IsTester then
    		Text    = "Items",
     	Default = false,
     	Tooltip	= "Show ESP for items.",
-		Disabled = true,
     	Callback = function(enabled)
-    	    -- not available at the moment.
+    	    ItemESPEnabled = enabled
     	end
 	})
 	SecTab:AddToggle("DoorESP", {
