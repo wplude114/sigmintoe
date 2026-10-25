@@ -96,6 +96,7 @@ function TweenObject(obj,info,prop, Callback:() -> ())
 end
 --------------------------------------------------------------
 function Library:AddESP(params)
+	-- params: {Object:BasePart|Model, Text:string, Color:Color3}
     if Library.Unloaded then return end
     local obj = params.Object or params
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
@@ -116,7 +117,6 @@ function Library:AddESP(params)
 end
 
 function Library:RemoveESP(Object)
-	if Library.Unloaded then return end
 	local obj = Object
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
 	if Library.Objects[obj] then
