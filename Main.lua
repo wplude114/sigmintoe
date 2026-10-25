@@ -1413,8 +1413,7 @@ task.spawn(function()
     end
 end)
 
-SecTab:AddDivider()
-SecTab:AddLabel("<font size=20><b>ESP Options</b><\font>")
+SecTab:AddDivider() SecTab:AddDivider()
 ObjectiveColor = Color3.fromRGB(26, 255, 0)
 DoorESPColor   = Color3.fromRGB(0, 199, 255)
 SpotESPColor   = Color3.fromRGB(255, 174, 43)
@@ -1427,12 +1426,26 @@ local ESPEnabled = false
 	-- {Object:BasePart|Model, Text:string, Color:Color3}
 local Objectives = {
 		["KeyObtain"] = "Room key",
-		["LeverForGate"] = "Lever"
+		["LeverForGate"] = "Lever",
+		["TimerLever"] = "Time Lever",
+		["GardenGateButton"] = "Button",
+		["MinesGateButton"] = "Button",
+		["StairwellFireAlarm"] = "Fire Alarm",
+		["StairwellTerminal"] = "Terminal",
+		["ArchivesTerminal"] = "Terminal",
+		["FuseObtain"] = "Fuse",
+		["MinesGenerator"] = "Generator",
 }
 ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not ObjectiveESPEnabled then return end
 	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
+	
 	if RoomModel then
+		local RoomIsWorthChecking = false
+		for i,v in Objectives do
+			if RoomModel:FindFirstChild(i) then RoomIsWorthChecking = true end
+		end
+		if not RoomIsWorthChecking then return end
 		for _,obj in ObjectiveESP do ESPLibrary:RemoveESP(obj) end
 		ObjectiveESP = {}
 		for _,obj in RoomModel:GetDescendants() do
@@ -1465,19 +1478,12 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 					Color = DoorESPColor
 				})
 				DoorESP[obj] = obj
+				obj.Hidden.Size = Vector3.new(0.0001,0.0001,0.0001)
 			end
 			if obj.Name == "Wax_Door" and obj:IsA("Model") then
 				ESPLibrary:AddESP({
 					Object = obj,
 					Text = "Skeleton Key Door",
-					Color = DoorESPColor
-				})
-				DoorESP[obj] = obj
-			end
-			if obj.Name == "DoorNormal" and obj:IsA("Model") then
-				ESPLibrary:AddESP({
-					Object = obj,
-					Text = "Side Room Door",
 					Color = DoorESPColor
 				})
 				DoorESP[obj] = obj
@@ -1504,6 +1510,14 @@ if IsTester then
     	Callback = function(enabled)
     	    ObjectiveESPEnabled = enabled
     	end
+	})
+	Toggles.ObjectivesESP:AddColorPicker("ObjectiveColor", {
+    	Default      = ObjectiveColor,
+    	Title        = "Objectives",
+    	Transparency = 0,
+    	Callback     = function(newColor)
+        	ObjectiveColor = newColor
+   	 	end
 	})
 	SecTab:AddToggle("ItemESP", {
    		Text    = "Items",
