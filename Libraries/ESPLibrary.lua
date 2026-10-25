@@ -100,6 +100,26 @@ local function debugPrint(string)
 	end
 end
 --------------------------------------------------------------
+function Library:RemoveESP(Object)
+	local obj = Object
+	debugPrint(`Attempt to remove {obj} from ESP.`)
+    if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
+	debugPrint("Object exists")
+	if Library.Objects[obj] then
+		Library.Objects[obj] = nil
+		Library.ObjectData[obj] = nil
+		if Library.Highlights[obj] then
+			Library.Highlights[obj]:Destroy()
+			Library.Highlights[obj] = nil
+		end
+		if Library.TextLabels[obj] then
+			Library.TextLabels[obj]:Destroy()
+			Library.TextLabels[obj] = nil
+		end
+		debugPrint("Object successfully removed from ESP.")
+	end
+end
+
 function Library:AddESP(params)
 	-- params: {Object:BasePart|Model, Text:string, Color:Color3}
     if Library.Unloaded then return end
@@ -121,27 +141,8 @@ function Library:AddESP(params)
 			Text = params.Text or (obj.Name or "Object")
 		}
 	end
+	obj.Removing:Once(function() Library:RemoveESP(obj) end)
 	debugPrint("Object successfully added.")
-end
-
-function Library:RemoveESP(Object)
-	local obj = Object
-	debugPrint(`Attempt to remove {obj} from ESP.`)
-    if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
-	debugPrint("Object exists")
-	if Library.Objects[obj] then
-		Library.Objects[obj] = nil
-		Library.ObjectData[obj] = nil
-		if Library.Highlights[obj] then
-			Library.Highlights[obj]:Destroy()
-			Library.Highlights[obj] = nil
-		end
-		if Library.TextLabels[obj] then
-			Library.TextLabels[obj]:Destroy()
-			Library.TextLabels[obj] = nil
-		end
-		debugPrint("Object successfully removed from ESP.")
-	end
 end
 --------------------------------------------------------------
 function Library.Update(dt)
