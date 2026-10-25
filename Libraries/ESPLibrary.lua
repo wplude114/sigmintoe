@@ -32,7 +32,7 @@ Library = {
     TextLabels = {},
     Colors = {},
 
-	Version = "1.0.1"
+	Version = "1.0.2"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -99,7 +99,7 @@ function TweenObject(obj,info,prop, Callback:() -> ())
 end
 local function debugPrint(string)
 	if Library.DebugOutput then
-		print("[ESP Module]:  "..string)
+		print(`[ESP Module v{Library.Version}]:  `..string)
 	end
 end
 --------------------------------------------------------------
@@ -246,5 +246,4 @@ end)
 if getgenv then
 	getgenv().ESPLibrary = Library
 end
-debugPrint(`Version: {Library.Version}`)
 return Library
