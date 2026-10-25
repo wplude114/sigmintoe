@@ -61,7 +61,7 @@ local function GetHiddenUI()
 	return Folder
 end
 --------------------------------------------------------------
-local Hui = GetHittenUI()
+local Hui = GetHiddenUI()
 Hui.Name = Library:GenerateRandomString(32)
 Hui.ResetOnSpawn = false
 Hui.IgnoreGuiInset = true
