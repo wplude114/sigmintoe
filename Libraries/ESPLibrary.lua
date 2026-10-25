@@ -162,10 +162,10 @@ function Library.Update(dt)
 			Library:RemoveESP(obj)
 		end
 		if obj and Library.ObjectData[obj] then
+			objData = Library.ObjectData[obj]
 			objOutOfRange = false
 			local Distance = ((obj:IsA("Model") and obj:GetPivot().Position or obj.Position) - Camera.CFrame.Position).Magnitude
 			if Distance > objData.MaxDistance then objOutOfRange = true end
-			objData = Library.ObjectData[obj]
 			-- Create Highlight
 			if not Library.Highlights[obj] then
 				Library.Highlights[obj] = Instance.new("Highlight", HighlightsFolder)
