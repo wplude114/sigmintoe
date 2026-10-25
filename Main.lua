@@ -217,13 +217,6 @@ getgenv().Bk = true
 	annouceGroup:AddDivider()
     	annouceGroup:AddLabel("Reworked ESP module is\nalmost done!")
     	annouceGroup:AddLabel("It will be added soon, still\nworking on tracers, arrows, etc.")
-	
-	local infTab = Tabs.Info:AddLeftTabbox()
-	Tabs.Info:UpdateWarningBox({
-		Visible = true,
-		Title = "Notice",
-		Text = "<u>We do not condone using exploits to get <b>free stuff</b></u>, this is all for good fun!\nAs such, you will be <b>kicked</b> on the last room to prevent you from hacking badges such as hotel hell.",
-	})
 	local inffirsttab = infTab:AddTab('Update Log')
 
 	inffirsttab:AddLabel("<b>10/24/2026</b>")
@@ -234,13 +227,21 @@ getgenv().Bk = true
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Fling button in new Players tab.</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(best to use position spoof.)</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
+		inffirsttab:AddLabel("\n\n")
+
+	inffirsttab:AddLabel("<b>[no date]</b>")
+	inffirsttab:AddDivider()
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Stairwell/Archives support</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Optimizations</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Game tab</font>")
+		--inffirsttab:AddLabel("\n\n")
 	
 	local inffirsttab2 = infTab:AddTab('Upcomming')
 		
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti noise</font>")
-		inffirsttab2:AddLabel("<font color='#ffff00'>· Fully reworked ESP</font>")
+		inffirsttab2:AddLabel("<font color='#ffff00'>· Optimized ESP</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Custom item skins</font>")
 
