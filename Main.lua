@@ -211,7 +211,7 @@ local Tabs = {
 
 getgenv().Bk = true
 
-	local annouceGroup = Tabs.Info:AddLeftGroupbox("Announcements", nil, true, true)
+	local annouceGroup = Tabs.Info:AddRightGroupbox("Announcements")
 
 	annouceGroup:AddLabel("<b>10/25/2026</b>")
 	annouceGroup:AddDivider()
@@ -235,7 +235,7 @@ getgenv().Bk = true
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(best to use position spoof.)</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
 	
-	local inffirsttab2 = Tabs.Info:AddRightTabbox():AddTab('Upcomming')
+	local inffirsttab2 = infTab:AddTab('Upcomming')
 		
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
@@ -5901,7 +5901,7 @@ group:AddButton({
 	})
 for i,v in game.Players:GetPlayers() do
 	if v == game.Players.LocalPlayer then continue end
-	local newgroup = Tabs.players:AddLeftGroupbox(v.DisplayName)
+	local newgroup = Tabs.players:AddLeftGroupbox(v.DisplayName, nil, true, true)
 	newgroup:AddButton({
 		Text = "Fling",
 		Tooltip = "Flings "..v.DisplayName,
