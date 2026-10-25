@@ -1442,9 +1442,6 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
 	
 	if RoomModel then
-		local RoomIsWorthChecking = false
-		if RoomModel.Door and RoomModel.Door:FindFirstChild("Lock", true) then RoomIsWorthChecking = true end
-		if not RoomIsWorthChecking then return end
 		for _,obj in ObjectiveESP do ESPLibrary:RemoveESP(obj) end
 		ObjectiveESP = {}
 		for _,obj in RoomModel:GetDescendants() do
@@ -1463,9 +1460,7 @@ end)
 local DoorModelNames = {["Door"] = true}
 ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not DoorESPEnabled then return end
-	print(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
 	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
-	print(RoomModel)
 	if RoomModel then
 		for _,obj in DoorESP do ESPLibrary:RemoveESP(obj) end
 		DoorESP = {}
@@ -1493,6 +1488,7 @@ end)
 
 local Entities = {
 		["Creak"] = "Creak",
+		["Drone"] = "Drone"
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
 		["RushMoving"] = "Rush",
@@ -1501,9 +1497,8 @@ local Entities = {
 		["A120"] = "A-120",
 		["BackdoorRush"] = "Blitz",
 		["Eyes"] = "Eyes",
-        ["Lookman"] = "Eyes",
 		["BackdoorLookman"] = "Lookman",
-		["Lookman"] = "Eyes",
+		["Lookman"] = "Lookman",
 		["GloombatSwarm"] = "Gloombat Swarm",
 		["Jeff"] = "Jeff The Killer",
 		["Halt"] = "Halt",
@@ -1554,7 +1549,7 @@ if IsTester then
 	SecTab:AddToggle("EntityESP", {
    		Text    = "Entities",
     	Default = false,
-    	Tooltip	= "Show ESP for threats/entities.",
+    	Tooltip	= "Show ESP for entities.",
     	Callback = function(enabled)
     	    EntityESPEnabled = enabled
     	end
