@@ -1494,10 +1494,31 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 end)
 
 local Entities = {
-		["Figure"] = "The Figure",
 		["Creak"] = "Creak",
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
+		["RushMoving"] = "Rush",
+		["AmbushMoving"] = "Ambush",
+		["A60"] = "A-60",
+		["A120"] = "A-120",
+		["BackdoorRush"] = "Blitz",
+		["Eyes"] = "Eyes",
+        ["Lookman"] = "Eyes",
+		["BackdoorLookman"] = "Lookman",
+		["Lookman"] = "Eyes",
+		["GloombatSwarm"] = "Gloombat Swarm",
+		["Jeff"] = "Jeff The Killer",
+		["Halt"] = "Halt",
+		["GlitchRush"] = "RNIUSHCG",
+		["GlitchedAmbush"]  = "AR0xMBUSH",
+		["CustomEntity"] = "Custom Entity",
+		["MonumentEntity"] = "Monument",
+		["Groundskeeper"] = "Groundskeeper",
+		["FigureRig"] = "Figure",
+        ["LiveEntityBramble"] = "Bramble",
+        ["FigureRagdoll"] = "Figure",
+        ["SallyMoving"] = "Sally",
+        ["JeffTheKiller"] = "Jeff The Killer",
 }
 ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 	if not EntityESPEnabled then return end
@@ -1506,7 +1527,7 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 	if Entities[obj.Name] then
 		ESPLibrary:AddESP({
 			Object = obj,
-			Text = "Skeleton Key Door",
+			Text = Entities[obj.Name],
 			Color = Color3.new(1,0,0)
 		})
 		EntityESP[obj] = obj
