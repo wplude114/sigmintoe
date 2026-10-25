@@ -2405,7 +2405,7 @@ thirdtab:AddToggle('AntiAlmas', {
 		AntiAlmaEnabled = Value
 	end
 })
-local AntiAlmaConnection = workspace.ChildAdded:Connet(function(obj)
+local AntiAlmaConnection = workspace.ChildAdded:Connect(function(obj)
 	if not AntiAlmaEnabled then return end
 	if obj and obj.Name == "Alma" and obj:IsA("Model") then
 		obj:Destroy()
