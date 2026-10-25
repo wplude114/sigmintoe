@@ -1413,19 +1413,66 @@ task.spawn(function()
 end)
 
 SecTab:AddDivider()
-SecTab:AddLabel("ESP Options")
+SecTab:AddLabel("<font size=20><b>ESP Options</b><\font>")
 ObjectiveColor = Color3.fromRGB(26, 255, 0)
 DoorESPColor   = Color3.fromRGB(0, 199, 255)
 SpotESPColor   = Color3.fromRGB(255, 174, 43)
 ItemESPColor   = Color3.fromRGB(170, 0, 255)
 
-local ObjectiveESPObjects = {}
-local DoorESPObjects      = {}
-local SpotESPObjects      = {}
-local ObjectiveBlacklist  = {}
-local ItemESPObjects      = {}
-
 local ESPConnections = {}
+local ObjectiveESP, ObjectiveESPEnabled = {}, false
+local DoorESP, DoorESPEnabled = {}, false
+local ESPEnabled = false
+	-- {Object:BasePart|Model, Text:string, Color:Color3}
+local Objectives = {
+		["KeyObtain"] = "Room key"
+}
+ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
+	if not ObjectiveESPEnabled then return end
+	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
+	if RoomModel then
+		for _,obj in ObjectiveESP do ESPLibrary:RemoveESP(obj) end
+		ObjectiveESP = {}
+		for _,obj in RoomModel:GetDescendants() do
+			if Objectives[obj.Name] then
+				ESPLibrary:AddESP({
+					Object = obj,
+					Text = Objectives[obj.Name],
+					Color = ObjectiveColor
+				})
+				ObjectiveESP[obj] = obj
+			end
+		end
+	end
+end)
+
+local DoorModelNames {"Door", "DoorNormal"}
+ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
+	if not DoorESPEnabled then return end
+	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
+	if RoomModel then
+		for _,obj in DoorESP do ESPLibrary:RemoveESP(obj) end
+		DoorESP = {}
+		for _,obj in RoomModel:GetDescendants() do
+			if DoorModelNames[obj.Name] and obj:IsA("Model") then
+				ESPLibrary:AddESP({
+					Object = obj,
+					Text = obj:FindFirstChild("Lock", true) and "Door (Locked)" or "Door",
+					Color = DoorESPColor
+				})
+				ObjectiveESP[obj] = obj
+			end
+			if obj.Name == "Wax_Door" and obj:IsA("Model") then
+				ESPLibrary:AddESP({
+					Object = obj,
+					Text = "Skeleton Key Door",
+					Color = DoorESPColor
+				})
+				ObjectiveESP[obj] = obj
+			end
+		end
+	end
+end)
 
 SecTab:AddToggle("ESPToggle", {
     Text    = "ESP Enabled",
@@ -1443,13 +1490,14 @@ if IsTester then
     	Default = false,
     	Tooltip	= "Show ESP for things required to get to the next room.",
     	Callback = function(enabled)
-    	    -- not available at the moment.
+    	    ObjectiveESPEnabled = enabled
     	end
 	})
 	SecTab:AddToggle("ItemESP", {
    		Text    = "Items",
     	Default = false,
     	Tooltip	= "Show ESP for items.",
+		Disabled = true,
     	Callback = function(enabled)
     	    -- not available at the moment.
     	end
@@ -1459,10 +1507,12 @@ if IsTester then
     	Default = false,
     	Tooltip	= "Show ESP for the next rooms door.",
     	Callback = function(enabled)
-    	    -- not available at the moment.
+    	    DoorESPEnabled = enabled
     	end
 	})
 end
+
+local ESPConnection = game.RunService.Heartbeat:Connect(function(dt) ESPLibrary.Update(dt) end)
 
 notified = {}
 notifiedHalt = false
