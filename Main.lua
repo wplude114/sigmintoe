@@ -212,10 +212,11 @@ getgenv().Bk = true
 
 	inffirsttab:AddLabel("<b>10/25/2026</b>")
 	inffirsttab:AddDivider()
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP</font>")
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Tester Permissions</font>")
-    	inffirsttab:AddLabel("<font color='#ff0000'>- Old ESP removed</font>")
-    	inffirsttab:AddLabel("<font color='#ff0000'>- ESP settings (temp)</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP!</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Tester Permissions!</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Enabled the Allow Progress button.</font>")
+    	inffirsttab:AddLabel("<font color='#ff0000'>- Old ESP removed.</font>")
+    	inffirsttab:AddLabel("<font color='#ff0000'>- Less ESP settings. (temp)</font>")
 		inffirsttab:AddLabel("\n\n")
 	
 	inffirsttab:AddLabel("<b>10/24/2026</b>")
@@ -4440,7 +4441,7 @@ group:AddCheckbox("Progress", {
     Default = false,
     Tooltip = "Disables the kick message when you reach the end of the floor.",
 	DisabledTooltip = "<font color='#888888'>⚠ This feature is currently disabled.</font>",
-	Disabled = true,
+	Disabled = false,
     Callback = function(enabled)
        AllowProgress = enabled
     end
