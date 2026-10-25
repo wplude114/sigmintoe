@@ -1488,7 +1488,7 @@ end)
 
 local Entities = {
 		["Creak"] = "Creak",
-		["Drone"] = "Drone"
+		["Drone"] = "Drone",
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
 		["RushMoving"] = "Rush",
