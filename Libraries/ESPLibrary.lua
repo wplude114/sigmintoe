@@ -2,7 +2,7 @@
 ValidTypes = {
     ["ESP"] = {Highlight = 1, Box = 2, None = 3},
     ["Positions"] = {Center = 1, Top = 2, Bottom = 3},
-    ["OptimizationLevel"]  {Default = 0, Optimized = 1, VeryOptimized = 2}
+    ["OptimizationLevel"] = {Default = 0, Optimized = 1, VeryOptimized = 2}
 }
 --------------------------------------------------------------
 Library = {
