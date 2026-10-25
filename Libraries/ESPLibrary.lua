@@ -162,7 +162,7 @@ function Library.Update(dt)
 		if obj and Library.ObjectData[obj] then
 			objOutOfRange = false
 			local Distance = ((obj:IsA("Model") and obj:GetPivot().Position or obj.Position) - Camera.CFrame.Position).Magnitude
-			if Distance > objInfo.MaxDistance then objOutOfRange = true end
+			if Distance > objData.MaxDistance then objOutOfRange = true end
 			objData = Library.ObjectData[obj]
 			-- Create Highlight
 			if not Library.Highlights[obj] then
