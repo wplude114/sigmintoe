@@ -211,6 +211,13 @@ local Tabs = {
 
 getgenv().Bk = true
 
+	local annouceGroup = Tabs.Info:AddLeftGroupbox("Announcements", nil, true, true)
+
+	annouceGroup:AddLabel("<b>10/25/2026</b>")
+	annouceGroup:AddDivider()
+    	annouceGroup:AddLabel("Reworked ESP module is almost complete!")
+    	annouceGroup:AddLabel("It will be added soon, still working on\ntracers, arrows, etc.")
+	
 	local infTab = Tabs.Info:AddLeftTabbox()
 	Tabs.Info:UpdateWarningBox({
 		Visible = true,
