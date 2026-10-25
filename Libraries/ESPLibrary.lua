@@ -185,7 +185,8 @@ function Library.Update(dt)
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
 
 			-- Position Text
-			local objScreenPosition, objOnScreen = Camera:WorldToViewportPoint(obj:IsA("Model") and obj:GetPivot() or obj.CFrame)
+			local objScreenPosition, objOnScreen = Camera:WorldToViewportPoint(obj:IsA("Model") and obj:GetPivot().Position or obj.Position)
+			if not objScreenPosition then return end
 			objText.Visible = objOnScreen
 			if objOnScreen then
 				objText.Position = UDim2.fromScale(
