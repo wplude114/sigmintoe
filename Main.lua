@@ -1429,20 +1429,9 @@ local ESPConnections = {}
 SecTab:AddToggle("ESPToggle", {
     Text    = "ESP Enabled",
     Default = false,
-    Tooltip	= "This feature is disabled for now.",
+    DisabledTooltip	= "This feature is disabled for now.",
 	Disabled = true,
     Callback = function(enabled)
-        -- not available at the moment.
-    end
-})
-
-Toggles.ESPToggle:AddColorPicker("ESPColor", {
-    Default      = PlayerColor,
-    Title        = "Player Color",
-	Disabled	 = true,
-	Visible 	 = false,
-    Transparency = 0,
-    Callback     = function(newColor)
         -- not available at the moment.
     end
 })
