@@ -72,6 +72,7 @@ onlineVersion = tostring(onlineVersion):gsub("%s+", "")
     
 local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wplude114/sigmintoe/refs/heads/main/Libraries/ESPLibrary.lua"))()
 ESPLibrary:SetOptimizationLevel("Default")
+ESPLibrary.DebugOutput = true
  
 local Options = Library.Options
 local Toggles = Library.Toggles
