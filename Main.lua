@@ -203,13 +203,21 @@ getgenv().Bk = true
 
 	local annouceGroup = Tabs.Info:AddRightGroupbox("Announcements")
 
-	annouceGroup:AddLabel("<b>10/25/2026</b>")
+	annouceGroup:AddLabel("<b>10/24/2026</b>")
 	annouceGroup:AddDivider()
     	annouceGroup:AddLabel("Reworked ESP module is\nalmost done!")
     	annouceGroup:AddLabel("It will be added soon, still\nworking on tracers, arrows, etc.")
 	local infTab = Tabs.Info:AddLeftTabbox()
 	local inffirsttab = infTab:AddTab('Update Log')
 
+	inffirsttab:AddLabel("<b>10/25/2026</b>")
+	inffirsttab:AddDivider()
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP</font>")
+    	inffirsttab:AddLabel("<font color='#ff0000'>- Old ESP removed</font>")
+    	inffirsttab:AddLabel("<font color='#ff0000'>- ESP settings (temp)</font>")
+		inffirsttab:AddLabel("\n\n")
+	
 	inffirsttab:AddLabel("<b>10/24/2026</b>")
 	inffirsttab:AddDivider()
     	inffirsttab:AddLabel("<font color='#00ff00'>+ More support for new floors!</font>")
@@ -225,7 +233,6 @@ getgenv().Bk = true
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti ransom</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti alma</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Anti noise</font>")
-		inffirsttab2:AddLabel("<font color='#ffff00'>· Optimized ESP</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Debug tab (in admin panel)</font>")
 		inffirsttab2:AddLabel("<font color='#ffff00'>· Custom item skins</font>")
 
@@ -1489,6 +1496,7 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 end)
 
 local Entities = {
+		["Drones"] = "Drone"
 		["Creak"] = "Creak",
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
@@ -1501,7 +1509,6 @@ local Entities = {
 		["BackdoorLookman"] = "Lookman",
 		["Lookman"] = "Lookman",
 		["GloombatSwarm"] = "Gloombat Swarm",
-		["Jeff"] = "Jeff The Killer",
 		["Halt"] = "Halt",
 		["GlitchRush"] = "RNIUSHCG",
 		["GlitchedAmbush"]  = "AR0xMBUSH",
@@ -1608,17 +1615,7 @@ ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
 	end
 end)
 
-SecTab:AddToggle("ESPToggle", {
-    Text    = "ESP Enabled",
-    Default = true,
-    DisabledTooltip	= "This feature is disabled for now.",
-	Disabled = not IsTester,
-    Callback = function(enabled)
-        -- not available at the moment.
-    end
-})
-
-if IsTester then
+if true then
 	SecTab:AddToggle("ObjectivesESP", {
    		Text    = "Objectives",
     	Default = false,
