@@ -1423,7 +1423,7 @@ local ESPConnections = {}
 local ObjectiveESP, ObjectiveESPEnabled = {}, false
 local EntityESP, EntityESPEnabled = {}, false
 local DoorESP, DoorESPEnabled = {}, false
-local ESPEnabled = false
+local ESPEnabled = true
 	-- {Object:BasePart|Model, Text:string, Color:Color3}
 local Objectives = {
 		["KeyObtain"] = "Room key",
@@ -1444,11 +1444,12 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 	if RoomModel then
 		local RoomIsWorthChecking = false
 		for i,v in Objectives do
-			if RoomModel:FindFirstChild(i) then RoomIsWorthChecking = true end
+			if RoomModel:FindFirstChild(i, true) then RoomIsWorthChecking = true end
 		end
 		if not RoomIsWorthChecking then return end
 		for _,obj in ObjectiveESP do ESPLibrary:RemoveESP(obj) end
 		ObjectiveESP = {}
+		task.wait()
 		for _,obj in RoomModel:GetDescendants() do
 			if Objectives[obj.Name] then
 				ESPLibrary:AddESP({
