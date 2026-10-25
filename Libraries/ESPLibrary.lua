@@ -63,8 +63,12 @@ end
 --------------------------------------------------------------
 local Hui = GetHiddenUI()
 Hui.Name = Library:GenerateRandomString(32)
-Hui.ResetOnSpawn = false
-Hui.IgnoreGuiInset = true
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.Name = Library:GenerateRandomString()
+ScreenGui.Parent = Hui
 --------------------------------------------------------------
 local Folders = {}
 function AddFolder(Name:string)
@@ -75,8 +79,7 @@ function AddFolder(Name:string)
 end
 --------------------------------------------------------------
 local HighlightsFolder = AddFolder("Highlights")
-local BillboardsFolder = AddFolder("Billboards")
-local TextHolder = Instance.new("Frame", Hui)
+local TextHolder = Instance.new("Frame", ScreenGui)
 TextHolder.Size = UDim2.fromScale(1,1)
 TextHolder.BackgroundTransparency = 1
 --------------------------------------------------------------
@@ -141,7 +144,7 @@ function Library.Update(dt)
 			-- Create Highlight
 			if not Library.Highlights[obj] then
 				Library.Highlights[obj] = Instance.new("Highlight", HighlightsFolder)
-				Library.Highlights[obj].Name = GenerateRandomString()
+				Library.Highlights[obj].Name = Library:GenerateRandomString()
 				Library.Highlights[obj].DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				Library.Highlights[obj].Adornee = obj
 			end
@@ -155,7 +158,7 @@ function Library.Update(dt)
 			-- Create Text
 			if not Library.TextLabels[obj] then
 				Library.TextLabels[obj] = Instance.new("TextLabel", TextHolder)
-				Library.TextLabels[obj].Name = GenerateRandomString()
+				Library.TextLabels[obj].Name = Library:GenerateRandomString()
 				Library.TextLabels[obj].BackgroundTransparency = 1
 				Library.TextLabels[obj].Size = UDim2.fromOffset(21,21)
 				Library.TextLabels[obj].RichText = true
