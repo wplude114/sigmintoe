@@ -228,13 +228,6 @@ getgenv().Bk = true
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Fling button in new Players tab.</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Sprint toggle in general tab\n(best to use position spoof.)</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Next room button removed.</font>")
-		inffirsttab:AddLabel("\n\n")
-
-	inffirsttab:AddLabel("<b>[no date]</b>")
-	inffirsttab:AddDivider()
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Stairwell/Archives support</font>")
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Optimizations</font>")
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Game tab</font>")
 		--inffirsttab:AddLabel("\n\n")
 	
 	local inffirsttab2 = infTab:AddTab('Upcomming')
