@@ -213,7 +213,7 @@ getgenv().Bk = true
 	inffirsttab:AddLabel("<b>10/25/2026</b>")
 	inffirsttab:AddDivider()
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP</font>")
-    	inffirsttab:AddLabel("<font color='#00ff00'>+ Updated/Optimized ESP</font>")
+    	inffirsttab:AddLabel("<font color='#00ff00'>+ Tester Permissions</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Old ESP removed</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- ESP settings (temp)</font>")
 		inffirsttab:AddLabel("\n\n")
@@ -1497,6 +1497,9 @@ end)
 
 local Entities = {
 		["Drones"] = "Drone",
+		["DronesStampede"] = "Drone Stampede",
+		["BashMoving"] = "Bash",
+		["Scribbles"] = "Scribbles",
 		["Creak"] = "Creak",
 		["NoiseModel"] = "Noise",
 		["TV_Stand"] = "Noise (TV)",
