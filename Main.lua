@@ -1459,19 +1459,19 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 		for _,obj in RoomModel:GetDescendants() do
 			if DoorModelNames[obj.Name] and obj:IsA("Model") then
 				ESPLibrary:AddESP({
-					Object = obj,
+					Object = obj:FindFirstChild("Door") or obj,
 					Text = obj:FindFirstChild("Lock", true) and "Door (Locked)" or "Door",
 					Color = DoorESPColor
 				})
-				ObjectiveESP[obj] = obj
+				DoorESP[obj] = obj
 			end
 			if obj.Name == "Wax_Door" and obj:IsA("Model") then
 				ESPLibrary:AddESP({
-					Object = obj,
+					Object = obj:FindFirstChild("Door") or obj,,
 					Text = "Skeleton Key Door",
 					Color = DoorESPColor
 				})
-				ObjectiveESP[obj] = obj
+				DoorESP[obj] = obj
 			end
 		end
 	end
