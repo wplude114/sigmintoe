@@ -1446,10 +1446,12 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 	end
 end)
 
-local DoorModelNames = {"Door", "DoorNormal"}
+local DoorModelNames = {["Door"] = true, ["DoorNormal"] = true}
 ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not DoorESPEnabled then return end
+	print(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
 	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
+	print(RoomModel)
 	if RoomModel then
 		for _,obj in DoorESP do ESPLibrary:RemoveESP(obj) end
 		DoorESP = {}
