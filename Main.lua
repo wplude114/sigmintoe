@@ -1511,14 +1511,6 @@ if IsTester then
     	    ObjectiveESPEnabled = enabled
     	end
 	})
-	Toggles.ObjectivesESP:AddColorPicker("ObjectiveColor", {
-    	Default      = ObjectiveColor,
-    	Title        = "Objectives",
-    	Transparency = 0,
-    	Callback     = function(newColor)
-        	ObjectiveColor = newColor
-   	 	end
-	})
 	SecTab:AddToggle("ItemESP", {
    		Text    = "Items",
     	Default = false,
