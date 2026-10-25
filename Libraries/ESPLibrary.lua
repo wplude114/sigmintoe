@@ -23,7 +23,8 @@ Library = {
     FillTransparency = 0.8,
     OutlineTransparency = 0,
     FadeTime = 0,
-    
+
+	-- data/instances
     Objects = {},
 	ObjectData = {},
     Highlights = {},
@@ -183,6 +184,10 @@ function Library.Update(dt)
 			end
 		end
 	end
+end
+--------------------------------------------------------------
+function Library.SetOptimizationLevel(level:string)
+	if ValidTypes.OptimizationLevel[level] then Library.OptimizationLevel = ValidTypes.OptimizationLevel[level] end
 end
 --------------------------------------------------------------
 function Library:ClearAllESP()
