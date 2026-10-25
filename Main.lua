@@ -1461,6 +1461,7 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 					Color = ObjectiveColor
 				})
 				ObjectiveESP[obj] = obj
+				MaxDistance = 200
 			end
 		end
 	end
@@ -1478,7 +1479,8 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 				ESPLibrary:AddESP({
 					Object = obj,
 					Text = obj:FindFirstChild("Lock", true) and "Door (Locked)" or "Door",
-					Color = DoorESPColor
+					Color = DoorESPColor,
+					MaxDistance = 1000
 				})
 				DoorESP[obj] = obj
 				obj.Hidden.Size = Vector3.new(0.0001,0.0001,0.0001)
@@ -1487,7 +1489,8 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 				ESPLibrary:AddESP({
 					Object = obj,
 					Text = "Skeleton Key Door",
-					Color = DoorESPColor
+					Color = DoorESPColor,
+					MaxDistance = 1000
 				})
 				DoorESP[obj] = obj
 			end
@@ -1497,6 +1500,7 @@ end)
 
 local Entities = {
 		["Drones"] = "Drone",
+		["TellerRig"] = "Teller",
 		["DronesStampede"] = "Drone Stampede",
 		["BashMoving"] = "Bash",
 		["Scribbles"] = "Scribbles",
@@ -1532,7 +1536,8 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 		ESPLibrary:AddESP({
 			Object = obj,
 			Text = Entities[obj.Name],
-			Color = Color3.new(1,0,0)
+			Color = Color3.new(1,0,0),
+			MaxDistance = 250
 		})
 		EntityESP[obj] = obj
 	end
