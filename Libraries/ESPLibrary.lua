@@ -94,15 +94,22 @@ function TweenObject(obj,info,prop, Callback:() -> ())
     if Callback then tween.Completed:Once(function() Callback() end) end
     tween:Play()
 end
+local function debugPrint(string)
+	if Library.DebugOutput then
+		print(string)
+	end
+end
 --------------------------------------------------------------
 function Library:AddESP(params)
 	-- params: {Object:BasePart|Model, Text:string, Color:Color3}
     if Library.Unloaded then return end
+	debugPrint("Attempt to add object to ESP.")
     local obj = params.Object or params
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
-	
-	if Library.Objects[obj] then return end
+	debugPrint("Object found")
+	if Library.Objects[obj] then return debugPrint("Object has already been added.") end
 	Library.Objects[obj] = obj
+	debugPrint("Setting data..")
 	if obj == params then
 		Library.ObjectData[obj] = {
 			Color = Color3.New(1,1,1),
@@ -114,11 +121,14 @@ function Library:AddESP(params)
 			Text = params.Text or (obj.Name or "Object")
 		}
 	end
+	debugPrint("Object successfully added.")
 end
 
 function Library:RemoveESP(Object)
 	local obj = Object
+	debugPrint("Attempt to remove object from ESP.")
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
+	debugPrint("Object exists")
 	if Library.Objects[obj] then
 		Library.Objects[obj] = nil
 		Library.ObjectData[obj] = nil
@@ -130,12 +140,14 @@ function Library:RemoveESP(Object)
 			Library.TextLabels[obj]:Destroy()
 			Library.TextLabels[obj] = nil
 		end
+		debugPrint("Object successfully removed from ESP.")
 	end
 end
 --------------------------------------------------------------
 function Library.Update(dt)
 	if Library.Unloaded then return end
 	Library.TimeSinceLastUpdate += dt
+	debugPrint(TimeSinceLastUpdate)
 	if Library.TimeSinceLastUpdate < Library.UpdateFreq then return end
 	Library.TimeSinceLastUpdate = 0
 
