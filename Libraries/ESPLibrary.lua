@@ -72,7 +72,7 @@ ScreenGui.Parent = Hui
 --------------------------------------------------------------
 local Folders = {}
 function AddFolder(Name:string)
-    local NewFolder = Instance.New("Folder", Hui)
+    local NewFolder = Instance.new("Folder", Hui)
     NewFolder.Name = Library:GenerateRandomString()
     Folders[Name] = NewFolder
     return NewFolder
