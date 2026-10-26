@@ -25,16 +25,18 @@ Library = {
     FadeTime = 0,
 	DefaultMaxDistance = 100,
 	ShowDistance = false,
+	ShowESPList = false,
 
 	-- data/instances
     Objects = {},
 	ObjectData = {},
     Highlights = {},
     TextLabels = {},
+    ListItems = {},
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.3"
+	Version = "1.0.4"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -88,25 +90,24 @@ local HighlightsFolder = AddFolder("Highlights")
 local TextHolder = Instance.new("Frame", ScreenGui)
 TextHolder.Size = UDim2.fromScale(1,1)
 TextHolder.BackgroundTransparency = 1
+
+local ESPList = Instance.new("Frame", ScreenGui)
+ESPList.Size = UDim2.new(1,-5,0,25)
+ESPList.Position = UDim2.new(1,-5,1,-5)
+ESPList.AnchorPoint = Vector2.new(1,1)
+ESPList.BackgroundTransparency = 1
+local ESPListSorter = Instance.new("UIListLayout", ESPList)
+ESPListSorter.FillDirection = Enum.FillDirection.Vertical
+ESPListSorter.HorizontalAlignment = Enum.HorizontalAlignment.Right
+ESPListSorter.VerticalAlignment = Enum.VerticalAlignment.Bottom
 --------------------------------------------------------------
-local Tweens = {
-    QuadOut = TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-    BackOut = TweenInfo.new(0, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-}
-function TweenObject(obj,info,prop, Callback:() -> ())
-    info.Time = Library.FadeTime
-    tween = TweenService:Create(obj,info,prop)
-    if Callback then tween.Completed:Once(function() Callback() end) end
-    tween:Play()
-end
 local function debugPrint(string)
 	if Library.DebugOutput then
 		print(`[ESP Module v{Library.Version}]:  `..tostring(string))
 	end
 end
 --------------------------------------------------------------
-function Library:RemoveESP(Object)
-	local obj = Object
+function Library:RemoveESP(obj)
 	debugPrint(`Attempt to remove {obj} from ESP.`)
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
 	debugPrint("Object exists")
@@ -124,6 +125,10 @@ function Library:RemoveESP(Object)
 		if Library.DistanceTextLabels[obj] then
 			Library.DistanceTextLabels[obj]:Destroy()
 			Library.DistanceTextLabels[obj] = nil
+		end
+		if Library.ListItems[obj] then
+			Library.ListItems[obj]:Destroy()
+			Library.ListItems[obj] = nil
 		end
 		debugPrint("Object successfully removed from ESP.")
 	end
@@ -143,13 +148,15 @@ function Library:AddESP(params)
 		Library.ObjectData[obj] = {
 			Color = Color3.New(1,1,1),
 			Text = (obj.Name or "Object"),
-			MaxDistance = Library.DefaultMaxDistance
+			MaxDistance = Library.DefaultMaxDistance,
+			ShowList = true
 		}
 	else
 		Library.ObjectData[obj] = {
 			Color = params.Color or Color3.New(1,1,1),
 			Text = params.Text or (obj.Name or "Object"),
-			MaxDistance = params.MaxDistance or Library.DefaultMaxDistance
+			MaxDistance = params.MaxDistance or Library.DefaultMaxDistance,
+			ShowList = params.ShowList or true
 		}
 	end
 	obj.Destroying:Once(function() Library:RemoveESP(obj) end)
@@ -209,6 +216,28 @@ function Library.Update(dt)
 			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
 			
+			if Library.ShowESPList and objData.ShowList then
+				if not Library.ListItems[obj] then
+					Library.ListItems[obj] = Instance.new("TextLabel", ESPList)
+					Library.ListItems[obj].Name = Library.TextLabels[obj].Name.."_List"
+					Library.ListItems[obj].BackgroundTransparency = 1
+					Library.ListItems[obj].TextStrokeTransparency = 0
+					Library.ListItems[obj].RichText = true
+				end
+				objListText = Library.ListItems[obj]
+				objListText.Size = UDim2.new(1,0,0,Library.TextSize+5)
+				objListText.Text = "["..math.round(Distance).."] ["..objData.Text.."]"
+				if objListText.TextColor3 ~= objData.Color then objListText.TextColor3 = objData.Color end
+				if objListText.TextSize ~= Library.TextSize then objListText.TextSize = Library.TextSize end
+				if objListText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objListText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
+				if objListText.Font ~= Library.Font then objListText.Font = Library.Font end
+			else
+				if Library.ListItems[obj] then
+					Library.ListItems[obj]:Destroy()
+					Library.ListItems[obj] = nil
+				end
+			end
+
 			if Library.ShowDistance then
 				if not Library.DistanceTextLabels[obj] then
 					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", objText)
