@@ -1422,12 +1422,12 @@ task.spawn(function()
 end)
 
 SecTab:AddDivider() SecTab:AddDivider()
-ObjectiveColor = Color3.new(0,1,0)
-DoorESPColor   = Color3.new(0,1,1)
-SpotESPColor   = Color3.new(1,1,0)
-ItemESPColor   = Color3.new(1,0,1)
-GoldESPColor   = Color3.new(0.5,1,0)
 EntityESPColor = Color3.new(1,0,0)
+ObjectiveColor = Color3.new(0,1,0)
+SpotESPColor   = Color3.new(0,0,1)
+GoldESPColor   = Color3.new(1,1,0)
+DoorESPColor   = Color3.new(0,1,1)
+ItemESPColor   = Color3.new(1,0,1)
 
 local ESPConnections = {}
 local ObjectiveESP, ObjectiveESPEnabled = {}, false
@@ -1436,7 +1436,7 @@ local DoorESP, DoorESPEnabled = {}, false
 local ItemESP, ItemESPEnabled = {}, false
 local GoldESP, GoldESPEnabled = {}, false
 local ESPEnabled = true
-	-- {Object:BasePart|Model, Text:string, Color:Color3}
+	-- {Object:BasePart|Model, Text:string, Color:Color3, MaxDistance:Number}
 local Objectives = {
 		["KeyObtain"] = "Room key",
 		["LeverForGate"] = "Lever",
@@ -1448,7 +1448,8 @@ local Objectives = {
 		["ArchivesTerminal"] = "Terminal",
 		["FuseObtain"] = "Fuse",
 		["MinesGenerator"] = "Generator",
-		["LiveHintBook"] = "Hint Book"
+		["LiveHintBook"] = "Hint Book",
+		["SallyToy"] = "Stupid Horse",
 }
 ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not ObjectiveESPEnabled then return end
@@ -1465,39 +1466,26 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 					Color = ObjectiveColor
 				})
 				ObjectiveESP[obj] = obj
-				MaxDistance = 200
+				MaxDistance = 1000
 			end
 		end
 	end
 end)
-
-local DoorModelNames = {["Door"] = true}
 ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not DoorESPEnabled then return end
 	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
 	if RoomModel then
 		for _,obj in DoorESP do ESPLibrary:RemoveESP(obj) end
 		DoorESP = {}
-		for _,obj in RoomModel:GetDescendants() do
-			if DoorModelNames[obj.Name] and obj:IsA("Model") then
-				ESPLibrary:AddESP({
-					Object = obj,
-					Text = obj:FindFirstChild("Lock", true) and "Door (Locked)" or "Door",
-					Color = DoorESPColor,
-					MaxDistance = 1000
-				})
-				DoorESP[obj] = obj
-				obj.Hidden.Size = Vector3.new(0.0001,0.0001,0.0001)
-			end
-			if obj.Name == "Wax_Door" and obj:IsA("Model") then
-				ESPLibrary:AddESP({
-					Object = obj,
-					Text = "Skeleton Key Door",
-					Color = DoorESPColor,
-					MaxDistance = 1000
-				})
-				DoorESP[obj] = obj
-			end
+		DoorModel = RoomModel:FindFirstChild("Door", true)
+		if DoorModel then
+			if DoorModel.Hidden then DoorModel.Hidden.Transparency = 1 end
+			ESPLibrary:AddESP({
+				Object = obj,
+				Text = "Door",
+				Color = DoorESPColor,
+				MaxDistance = 1000
+			})
 		end
 	end
 end)
@@ -1515,7 +1503,7 @@ ESPConnections.Gold = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 					Object = obj,
 					Text = "Gold",
 					Color = GoldESPColor,
-					MaxDistance = 150
+					MaxDistance = 1000
 				})
 				GoldESP[obj] = obj
 			end
@@ -1626,7 +1614,6 @@ local ItemNames = {
     ["Donut"] = "Donut",
     ["Lotus"] = "Lotus",
     ["BoxingGloves"] = "Boxing Gloves",
-    ["Green_Herb"] = "Herb of Viridis",
     ["Pizza"] = "Pizza Slice",
     ["PaperPlane"] = "Paper Airplane",
     ["WaterCup"] = "Water Cup",
@@ -1648,7 +1635,59 @@ ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
 		ItemESP[obj] = obj
 	end
 end)
-
+SecTabSet:AddColorPicker("ObjectivesESP_Color", {
+	Title = "Objective ESP Color",
+	Value = ObjectiveColor,
+	Callback = function(Value)
+		ObjectiveColor = Value
+	end
+})
+SecTabSet:AddColorPicker("EntityESP_Color", {
+	Title = "Entity ESP Color",
+	Value = EntityESPColor,
+	Callback = function(Value)
+		EntityESPColor = Value
+	end
+})
+SecTabSet:AddColorPicker("ItemESP_Color", {
+	Title = "Item ESP Color",
+	Value = ItemESPColor,
+	Callback = function(Value)
+		ItemESPColor = Value
+	end
+})
+SecTabSet:AddColorPicker("GoldESP_Color", {
+	Title = "Gold ESP Color",
+	Value = GoldESPColor,
+	Callback = function(Value)
+		GoldESPColor = Value
+	end
+})
+SecTabSet:AddColorPicker("DoorESP_Color", {
+	Title = "Door ESP Color",
+	Value = DoorESPColor,
+	Callback = function(Value)
+		DoorESPColor = Value
+	end
+})
+SecTabSet:AddDivider()
+SecTabSet:AddToggle("DistanceESP", {
+	Text = "Show Distances",
+	Default = false,
+	Tooltip = "Shows the distance (in studs) from you to objects affected by ESP.",
+	Callback = function(Value)
+		ESPLibrary.ShowDistance = Value
+	end,
+})
+SecTabSet:AddToggle("PathfindESP", {
+	Text = "Show Path",
+	Default = false,
+	DisabledTooltip = "Shows a path to objects affected by ESP.",
+	Disabled = true,
+	Callback = function(Value)
+		ESPLibrary.ShowPath = Value
+	end,
+})
 if true then
 	SecTab:AddToggle("ObjectivesESP", {
    		Text    = "Objectives",
@@ -1656,6 +1695,10 @@ if true then
     	Tooltip	= "Show ESP for things required to get to the next room.",
     	Callback = function(enabled)
     	    ObjectiveESPEnabled = enabled
+			if not enabled then
+				for _,obj in ObjectiveESP do ESPLibrary:RemoveESP(obj) end
+				ObjectiveESP = {}
+			end
     	end
 	})
 	SecTab:AddToggle("EntityESP", {
@@ -1664,6 +1707,10 @@ if true then
     	Tooltip	= "Show ESP for entities.",
     	Callback = function(enabled)
     	    EntityESPEnabled = enabled
+			if not enabled then
+				for _,obj in EntityESP do ESPLibrary:RemoveESP(obj) end
+				EntityESP = {}
+			end
     	end
 	})
 	SecTab:AddToggle("ItemESP", {
@@ -1672,6 +1719,10 @@ if true then
     	Tooltip	= "Show ESP for items.",
     	Callback = function(enabled)
     	    ItemESPEnabled = enabled
+			if not enabled then
+				for _,obj in ItemESP do ESPLibrary:RemoveESP(obj) end
+				ItemESP = {}
+			end
     	end
 	})
 	SecTab:AddToggle("DoorESP", {
@@ -1680,6 +1731,10 @@ if true then
     	Tooltip	= "Show ESP for the next rooms door.",
     	Callback = function(enabled)
     	    DoorESPEnabled = enabled
+			if not enabled then
+				for _,obj in DoorESP do ESPLibrary:RemoveESP(obj) end
+				DoorESP = {}
+			end
     	end
 	})
 	SecTab:AddToggle("GoldESP", {
@@ -1688,34 +1743,38 @@ if true then
     	Tooltip	= "Show ESP gold piles.",
     	Callback = function(enabled)
     	    GoldESPEnabled = enabled
+			if not enabled then
+				for _,obj in GoldESP do ESPLibrary:RemoveESP(obj) end
+				GoldESP = {}
+			end
     	end
 	})
 end
 
-local ESPConnection = game.RunService.Heartbeat:Connect(function(dt) ESPLibrary.Update(dt) end)
+local ESPUpdateConnection = game.RunService.Heartbeat:Connect(function(dt) ESPLibrary.Update(dt) end)
 
 notified = {}
 notifiedHalt = false
 
 CustomMessages = {
-    Rush = "<b>[BlackKing]</b>\nEntity 'Rush' has spawned, find a hiding spot.",
-    Ambush = "<b>[BlackKing]</b>\nEntity 'Ambush' has spawned, find a hiding spot.",
-    Blitz = "<b>[BlackKing]</b>\nEntity 'Blitz' has spawned, find a hiding spot.",
-    Eyes = "<b>[BlackKing]</b>\nEntity 'Eyes' has spawned, avoid looking at them.",
-    Lookman = "<b>[BlackKing]</b>\nEntity 'Lookman' has spawned, avoid looking at him.",
-    ["Jeff The Killer"] = "<b>[BlackKing]</b>\nEntity 'Jeff The Killer' has spawned in the next room.",
-    ["Custom Entity"] = "<b>[BlackKing]</b>\nA custom entity has spawned, find a hiding spot.",
-    ["A-60"] = "<b>[BlackKing]</b>\nEntity 'A-60' has spawned, find a hiding spot.",
-    ["A-120"] = "<b>[BlackKing]</b>\nEntity 'A-120' has spawned, find a hiding spot (Position spoof doesnt work).",
-    ["Gloombat Swarm"] = "<b>[BlackKing]</b>\nA Gloombat Swarm has appeared, turn off light sources for a few rooms.",
-    Halt = "<b>[BlackKing]</b>\nEntity 'Halt' will spawn in the next room.",
-    Sally = "<b>[BlackKing]</b>\nEntity 'Sally' has spawned, give her a item",
-    Groundskeeper = "<b>[BlackKing]</b>\nEntity 'Groundskeeper' has spawned, dont step on the grass.",
-    Monument = "<b>[BlackKing]</b>\nEntity 'Monument' has spawned, look at it.",
-    RNIUSHCG = "<b>[BlackKing]</b>\nEntity 'RNIUSHCG' has spawned, find a hiding spot.",
-    AR0xMBUSH = "<b>[BlackKing]</b>\nEntity 'AR0xMBUSH' has spawned, find a hiding spot.",
-    Scribbles = "<b>[BlackKing]</b>\nEntity 'Scribbles' has spawned, get to a hiding spot.",
-    Bash = "<b>[BlackKing]</b>\nEntity 'Bash' has spawned, get to a hiding spot."
+    Rush = "<b>[Sonium]</b>\nEntity 'Rush' has spawned, find a hiding spot.",
+    Ambush = "<b>[Sonium]</b>\nEntity 'Ambush' has spawned, find a hiding spot.",
+    Blitz = "<b>[Sonium]</b>\nEntity 'Blitz' has spawned, find a hiding spot.",
+    Eyes = "<b>[Sonium]</b>\nEntity 'Eyes' has spawned, avoid looking at them.",
+    Lookman = "<b>[Sonium]</b>\nEntity 'Lookman' has spawned, avoid looking at him.",
+    ["Jeff The Killer"] = "<b>[Sonium]</b>\nEntity 'Jeff The Killer' has spawned in the next room.",
+    ["Custom Entity"] = "<b>[Sonium]</b>\nA custom entity has spawned, find a hiding spot.",
+    ["A-60"] = "<b>[Sonium]</b>\nEntity 'A-60' has spawned, find a hiding spot.",
+    ["A-120"] = "<b>[Sonium]</b>\nEntity 'A-120' has spawned, find a hiding spot (Position spoof doesnt work).",
+    ["Gloombat Swarm"] = "<b>[Sonium]</b>\nA Gloombat Swarm has appeared, turn off light sources for a few rooms.",
+    Halt = "<b>[Sonium]</b>\nEntity 'Halt' will spawn in the next room.",
+    Sally = "<b>[Sonium]</b>\nEntity 'Sally' has spawned, give her a item",
+    Groundskeeper = "<b>[Sonium]</b>\nEntity 'Groundskeeper' has spawned, dont step on the grass.",
+    Monument = "<b>[Sonium]</b>\nEntity 'Monument' has spawned, look at it.",
+    RNIUSHCG = "<b>[Sonium]</b>\nEntity 'RNIUSHCG' has spawned, find a hiding spot.",
+    AR0xMBUSH = "<b>[Sonium]</b>\nEntity 'AR0xMBUSH' has spawned, find a hiding spot.",
+    Scribbles = "<b>[Sonium]</b>\nEntity 'Scribbles' has spawned, get to a hiding spot.",
+    Bash = "<b>[Sonium]</b>\nEntity 'Bash' has spawned, get to a hiding spot."
 }
 
 SecTabnot:AddDropdown('NotifyMonsters', {
@@ -1770,7 +1829,7 @@ CheckForHalt = function(instance)
         notifiedHalt = true
 
         if Toggles.EntityChatToggle.Value then
-            Functions.SendChat("[BlackKing] Halt is in the next room.")
+            Functions.SendChat("[Sonium] Halt is in the next room.")
         end
     end
 end
@@ -1809,14 +1868,14 @@ workspace.ChildAdded:Connect(function(child)
         if child.Name == instanceName and child:IsDescendantOf(workspace) then
 
             if Options.NotifyMonsters.Value[shortName] and not notified[child] then
-                msg = CustomMessages[shortName] or ("<b>[BlackKing]</b>\nEntity '"..shortName.."' has spawned.")
+                msg = CustomMessages[shortName] or ("<b>[Sonium]</b>\nEntity '"..shortName.."' has spawned.")
                 Library:Notify(msg)
                 sound()
 
                 notified[child] = true
 
                 if Toggles.EntityChatToggle.Value then
-                    Functions.SendChat("[BlackKing] ".. shortName .. " " .. Options.EntityChatMessage.Value)
+                    Functions.SendChat("[Sonium] ".. shortName .. " " .. Options.EntityChatMessage.Value)
                 end
             end
         end
@@ -1842,7 +1901,7 @@ workspace.CurrentRooms.ChildAdded:Connect(function(room)
                 notified["Groundskeeper"] = true
 
                 if Toggles.EntityChatToggle.Value then
-                    Functions.SendChat("[BlackKing] Groundskeeper " .. Options.EntityChatMessage.Value)
+                    Functions.SendChat("[Sonium] Groundskeeper " .. Options.EntityChatMessage.Value)
                 end
             end
         end)
