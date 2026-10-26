@@ -72,7 +72,7 @@ onlineVersion = tostring(onlineVersion):gsub("%s+", "")
     
 local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wplude114/sigmintoe/refs/heads/main/Libraries/ESPLibrary.lua"))()
 ESPLibrary:SetOptimizationLevel("Default")
-ESPLibrary.DebugOutput = true
+--ESPLibrary.DebugOutput = true
  
 local Options = Library.Options
 local Toggles = Library.Toggles
@@ -217,7 +217,6 @@ getgenv().Bk = true
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Enabled the Allow Progress button.</font>")
     	inffirsttab:AddLabel("<font color='#00ff00'>+ Anti alma!</font>")
     	inffirsttab:AddLabel("<font color='#ff0000'>- Old ESP removed.</font>")
-    	inffirsttab:AddLabel("<font color='#ff0000'>- Less ESP settings. (temp)</font>")
 		inffirsttab:AddLabel("\n\n")
 	
 	inffirsttab:AddLabel("<b>10/24/2026</b>")
@@ -1477,15 +1476,18 @@ ESPConnections.Door = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 	if RoomModel then
 		for _,obj in DoorESP do ESPLibrary:RemoveESP(obj) end
 		DoorESP = {}
-		DoorModel = RoomModel:FindFirstChild("Door", true)
-		if DoorModel then
-			if DoorModel.Hidden then DoorModel.Hidden.Transparency = 1 end
-			ESPLibrary:AddESP({
-				Object = obj,
-				Text = "Door",
-				Color = DoorESPColor,
-				MaxDistance = 1000
-			})
+		for _,obj in RoomModel:GetDescendants() do
+			if obj:IsA("Model") and obj.Name == "Door" then
+				if obj.Hidden then obj.Hidden.Transparency = 1 end
+				ESPLibrary:AddESP({
+					Object = obj,
+					Text = "Door",
+					Color = DoorESPColor,
+					MaxDistance = 1000,
+					ShowList = false
+				})
+				DoorESP[obj] = obj
+			end
 		end
 	end
 end)
@@ -1503,7 +1505,8 @@ ESPConnections.Gold = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 					Object = obj,
 					Text = "Gold",
 					Color = GoldESPColor,
-					MaxDistance = 1000
+					MaxDistance = 1000,
+					ShowList = false
 				})
 				GoldESP[obj] = obj
 			end
@@ -1551,7 +1554,8 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 			Object = obj,
 			Text = Entities[obj.Name],
 			Color = EntityESPColor,
-			MaxDistance = 250
+			MaxDistance = 250,
+			ShowList = false
 		})
 		EntityESP[obj] = obj
 	end
@@ -1641,7 +1645,14 @@ SecTabSet:AddToggle("DistanceESP", {
 	Tooltip = "Shows the distance (in studs) from you to objects affected by ESP.",
 	Callback = function(Value)
 		ESPLibrary.ShowDistance = Value
-		print(ESPLibrary.ShowDistance)
+	end,
+})
+SecTabSet:AddToggle("ESPList", {
+	Text = "Show ESP list",
+	Default = false,
+	Tooltip = "Shows all items affected by ESP.",
+	Callback = function(Value)
+		ESPLibrary.ShowESPList = Value
 	end,
 })
 SecTabSet:AddToggle("PathfindESP", {
