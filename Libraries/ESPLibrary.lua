@@ -207,7 +207,7 @@ function Library.Update(dt)
 				Library.TextLabels[obj].Size = UDim2.fromOffset(21,21)
 				Library.TextLabels[obj].RichText = true
 				Library.TextLabels[obj].AnchorPoint = Vector2.new(0.5,0.5)
-				Library.TextLabels[obj].Text = "[ "..objData.Text.." ]"
+				Library.TextLabels[obj].Text = "["..objData.Text.."]"
 			end
 			objText = Library.TextLabels[obj]
 			-- Update Text
@@ -224,6 +224,7 @@ function Library.Update(dt)
 					Library.ListItems[obj].TextStrokeTransparency = 0
 					Library.ListItems[obj].RichText = true
 					Library.ListItems[obj].TextXAlignment = Enum.TextXAlignment.Right
+					Library.ListItems[obj].LayoutOrder = string.len(objData.Text)
 				end
 				objListText = Library.ListItems[obj]
 				objListText.Visible = not objOutOfRange
