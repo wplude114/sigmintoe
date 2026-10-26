@@ -1462,10 +1462,11 @@ ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("
 				ESPLibrary:AddESP({
 					Object = obj,
 					Text = Objectives[obj.Name],
-					Color = ObjectiveColor
+					Color = ObjectiveColor,
+					MaxDistance = 1000
 				})
 				ObjectiveESP[obj] = obj
-				MaxDistance = 1000
+				
 			end
 		end
 	end
@@ -1555,7 +1556,7 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 			Text = Entities[obj.Name],
 			Color = EntityESPColor,
 			MaxDistance = 250,
-			ShowList = false
+			ShowList = obj.Name ~= "Drones"
 		})
 		EntityESP[obj] = obj
 	end
