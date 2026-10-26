@@ -1641,6 +1641,7 @@ SecTabSet:AddToggle("DistanceESP", {
 	Tooltip = "Shows the distance (in studs) from you to objects affected by ESP.",
 	Callback = function(Value)
 		ESPLibrary.ShowDistance = Value
+		print(ESPLibrary.ShowDistance)
 	end,
 })
 SecTabSet:AddToggle("PathfindESP", {
