@@ -1690,9 +1690,9 @@ if true then
 			else
 				print("Looking for entities..")
 				for i, obj in workspace:GetDescendants() do
-					print(i, tostring(obj.Name), tostring(typof(obj)))
+					print(tostring(i), tostring(obj.Name))
 					if not Entities[obj.Name] and obj:IsA("Model") then return end
-					print(i)
+					print(tostring(i))
 					if Entities[obj.Name] and not EntityESP[obj] then
 						print(`entity "{Entities[obj.Name]}" has been found, adding to ESP`)
 						ESPLibrary:AddESP({
