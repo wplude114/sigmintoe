@@ -34,7 +34,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.3 - 6"
+	Version = "1.0.3 - 7"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -211,17 +211,18 @@ function Library.Update(dt)
 			
 			if Library.ShowDistance then
 				if not Library.DistanceTextLabels[obj] then
-					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", TextHolder)
+					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", objText)
 					Library.DistanceTextLabels[obj].Name = Library.TextLabels[obj].Name.."_Distance"
 					Library.DistanceTextLabels[obj].BackgroundTransparency = 1
 					Library.DistanceTextLabels[obj].TextStrokeTransparency = 0
 					Library.DistanceTextLabels[obj].Size = UDim2.fromScale(1,1)
 					Library.DistanceTextLabels[obj].RichText = true
-					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0.5,0)
+					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0,0)
+					Library.DistanceTextLabels[obj].Position = UDim2.fromScale(0,1)
 				end
 				objDistanceText = Library.DistanceTextLabels[obj]
 				
-				objDistanceText.Text = "[ "..Distance.." ]"
+				objDistanceText.Text = "["..Distance.."]"
 				if objDistanceText.TextColor3 ~= objData.Color then objDistanceText.TextColor3 = objData.Color end
 				if objDistanceText.TextSize ~= Library.TextSize/2 then objDistanceText.TextSize = Library.TextSize/2 end
 				if objDistanceText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objDistanceText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
@@ -243,9 +244,6 @@ function Library.Update(dt)
 					objScreenPosition.X / Camera.ViewportSize.X,
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
-				if Library.DistanceTextLabels[obj] then
-					Library.DistanceTextLabels[obj].Position = objText.Position + UDim2.FromOffset(0,10.5)
-				end
 			end
 		end
 	end
