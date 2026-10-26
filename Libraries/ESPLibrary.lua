@@ -10,7 +10,6 @@ Library = {
     OptimizationLevel = ValidTypes.OptimizationLevel.Default,
     ESPMode = ValidTypes.ESP.Highlight,
     UpdateFreq = 0.05,
-    AutoUpdate = true,
     TimeSinceLastUpdate = 0,
 
     -- visuals
@@ -26,6 +25,7 @@ Library = {
 	DefaultMaxDistance = 100,
 	ShowDistance = false,
 	ShowESPList = false,
+	Pathfind = false,
 
 	-- data/instances
     Objects = {},
@@ -36,7 +36,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.4"
+	Version = "1.0.5 - 1"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -47,7 +47,7 @@ local Workspace = CloneReference(workspace)
 local RunService = CloneReference(game:GetService("RunService"))
 local UserInputService = CloneReference(game:GetService("UserInputService"))
 local Debris = CloneReference(game:GetService("Debris"))
-local TweenService = CloneReference(game:GetService("TweenService"))
+local PathFindingService = CloneReference(game:GetService("PathFindingService"))
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 --------------------------------------------------------------
@@ -69,6 +69,19 @@ local function GetHiddenUI()
 	return Folder
 end
 --------------------------------------------------------------
+function Library:PathToPosition(StartPos, EndPos, DoMarkers)
+	local Path = PathFindingService:CreatePath()
+	local Success, ErrorMsg = pcall(function()
+		Path:ComputeAsync(StartPos, EndPos)
+	end)
+
+	if Success then
+		return path:GetWaypoints()
+	else
+		return warn(ErrorMsg)
+	end
+end
+--------------------------------------------------------------
 local Hui = GetHiddenUI()
 Hui.Name = Library:GenerateRandomString(32)
 
@@ -87,6 +100,8 @@ function AddFolder(Name:string)
 end
 --------------------------------------------------------------
 local HighlightsFolder = AddFolder("Highlights")
+local PathfindingFolder = AddFolder("PathFinding")
+PathfindingFolder.Parent = Camera
 local TextHolder = Instance.new("Frame", ScreenGui)
 TextHolder.Size = UDim2.fromScale(1,1)
 TextHolder.BackgroundTransparency = 1
@@ -168,6 +183,7 @@ function Library.Update(dt)
 	Library.TimeSinceLastUpdate += dt
 	if Library.TimeSinceLastUpdate < Library.UpdateFreq then return end
 	Library.TimeSinceLastUpdate = 0
+	PathfindingFolder:ClearAllChildren()
 	for objId, obj in Library.Objects do
 		if not obj or (obj and not obj:IsDescendantOf(workspace) or obj:IsDescendantOf(LocalPlayer.Character)) then
 			debugPrint(`{obj} not found, removing..`)
@@ -277,6 +293,24 @@ function Library.Update(dt)
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
 			end
+
+			if Library.Pathfind then
+				local PathToObj = Library:PathToPosition(Camera.CFrame.Position, (obj:IsA("Model") and obj:GetPivot().Position or obj.Position))
+
+				if PathToObj then
+					for i,v in PathToObj do
+						local Marker = Instance.new("Part", PathfindingFolder)
+						Marker.Name = Library:GenerateRandomString()
+						Marker.Position = v.Position
+						Marker.Size = Vector3.new(0.5,0.5,0.5)
+						Marker.Anchored = true
+						Marker.CanCollide = false
+						Marker.Shape = "Ball"
+						Marker.Color = objData.Color
+						Marker.Material = Enum.Material.Neon
+					end
+				end
+			end
 		end
 	end
 end
@@ -303,6 +337,7 @@ end
 --------------------------------------------------------------
 CameraConnection = Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	Camera = Workspace.CurrentCamera
+	PathfindingFolder.Parent = Camera
 end)
 --------------------------------------------------------------
 if getgenv then
