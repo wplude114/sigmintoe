@@ -1660,7 +1660,7 @@ SecTabSet:AddToggle("PathfindESP", {
 	Text = "Show Path",
 	Default = false,
 	Tooltip = "Shows a path to objects affected by ESP.",
-	--Disabled = true,
+	Disabled = true,
 	Callback = function(Value)
 		ESPLibrary.Pathfind = Value
 	end,
