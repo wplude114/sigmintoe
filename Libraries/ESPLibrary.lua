@@ -34,7 +34,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.3 - 5"
+	Version = "1.0.3 - 6"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -208,10 +208,8 @@ function Library.Update(dt)
 			if objText.TextSize ~= Library.TextSize then objText.TextSize = Library.TextSize end
 			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
-
-			debugPrint(tostring(Library.ShowDistance))
-			debugPrint(Library.DistanceTextLabels[obj] ~= nil)
-			if Library.ShowDistances then
+			
+			if Library.ShowDistance then
 				if not Library.DistanceTextLabels[obj] then
 					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", TextHolder)
 					Library.DistanceTextLabels[obj].Name = Library.TextLabels[obj].Name.."_Distance"
@@ -246,7 +244,6 @@ function Library.Update(dt)
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
 				if Library.DistanceTextLabels[obj] then
-					debugPrint(objText.Position + UDim2.FromOffset(0,10.5))
 					Library.DistanceTextLabels[obj].Position = objText.Position + UDim2.FromOffset(0,10.5)
 				end
 			end
