@@ -1691,6 +1691,7 @@ if true then
 				print("Looking for entities..")
 				for i, obj in workspace:GetDescendants() do
 					print(tostring(i), tostring(obj.Name))
+					if typeof(obj) then print(tostring(typof(obj))) else print(tostring(obj.ClassName)) end
 					if not Entities[obj.Name] and obj:IsA("Model") then return end
 					print(tostring(i))
 					if Entities[obj.Name] and not EntityESP[obj] then
