@@ -34,7 +34,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.3 - 4"
+	Version = "1.0.3 - 5"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -101,7 +101,7 @@ function TweenObject(obj,info,prop, Callback:() -> ())
 end
 local function debugPrint(string)
 	if Library.DebugOutput then
-		print(`[ESP Module v{Library.Version}]:  `..string)
+		print(`[ESP Module v{Library.Version}]:  `..tostring(string))
 	end
 end
 --------------------------------------------------------------
@@ -209,7 +209,7 @@ function Library.Update(dt)
 			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
 
-			debugPrint(Library.ShowDistance)
+			debugPrint(tostring(Library.ShowDistance))
 			debugPrint(Library.DistanceTextLabels[obj] ~= nil)
 			if Library.ShowDistances then
 				if not Library.DistanceTextLabels[obj] then
@@ -246,7 +246,7 @@ function Library.Update(dt)
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
 				if Library.DistanceTextLabels[obj] then
-					debugPrint(Library.ShowDistance, objText.Position + UDim2.FromOffset(0,10.5))
+					debugPrint(objText.Position + UDim2.FromOffset(0,10.5))
 					Library.DistanceTextLabels[obj].Position = objText.Position + UDim2.FromOffset(0,10.5)
 				end
 			end
