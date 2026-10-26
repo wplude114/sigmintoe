@@ -1688,6 +1688,7 @@ if true then
 				for _,obj in EntityESP do ESPLibrary:RemoveESP(obj) end
 				EntityESP = {}
 			else
+				print("finding entities..")
 				for i, obj in workspace:GetDescendants() do
 					if not obj:IsA("Model") then return end
 
