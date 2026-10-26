@@ -212,6 +212,8 @@ function Library.Update(dt)
 
 			if Library.ShowDistances then
 				if not Library.DistanceTextLabels[obj] then
+					debugPrint(obj,)
+					debugPrint("No Distance Label, creating new one.")
 					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", objText)
 					Library.DistanceTextLabels[obj].Name = Library.TextLabels[obj].Name.."_Distance"
 					Library.DistanceTextLabels[obj].BackgroundTransparency = 1
@@ -230,6 +232,7 @@ function Library.Update(dt)
 				if objDistanceText.Font ~= Library.Font then objDistanceText.Font = Library.Font end
 			else
 				if Library.DistanceTextLabels[obj] then
+					debugPrint("Removing Distance Label..")
 					Library.DistanceTextLabels[obj]:Destroy()
 					Library.DistanceTextLabels[obj] = nil
 				end
