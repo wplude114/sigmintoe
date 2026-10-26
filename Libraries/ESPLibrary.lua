@@ -224,7 +224,7 @@ function Library.Update(dt)
 				
 				objDistanceText.Text = "["..math.round(Distance).."]"
 				if objDistanceText.TextColor3 ~= objData.Color then objDistanceText.TextColor3 = objData.Color end
-				if objDistanceText.TextSize ~= Library.TextSize/1.5 then objDistanceText.TextSize = Library.TextSize/1.5 end
+				if objDistanceText.TextSize ~= Library.TextSize*0.9 then objDistanceText.TextSize = Library.TextSize*0.9 end
 				if objDistanceText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objDistanceText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 				if objDistanceText.Font ~= Library.Font then objDistanceText.Font = Library.Font end
 			else
