@@ -1716,35 +1716,35 @@ if true then
 end
 Toggles.ObjectivesESP:AddColorPicker("ObjectivesESP_Color", {
 	Title = "Objective ESP Color",
-	Value = ObjectiveColor,
+	Default = ObjectiveColor,
 	Callback = function(Value)
 		ObjectiveColor = Value
 	end
 })
 Toggles.EntityESP:AddColorPicker("EntityESP_Color", {
 	Title = "Entity ESP Color",
-	Value = EntityESPColor,
+	Default = EntityESPColor,
 	Callback = function(Value)
 		EntityESPColor = Value
 	end
 })
 Toggles.ItemESP:AddColorPicker("ItemESP_Color", {
 	Title = "Item ESP Color",
-	Value = ItemESPColor,
+	Default = ItemESPColor,
 	Callback = function(Value)
 		ItemESPColor = Value
 	end
 })
 Toggles.GoldESP:AddColorPicker("GoldESP_Color", {
 	Title = "Gold ESP Color",
-	Value = GoldESPColor,
+	Default = GoldESPColor,
 	Callback = function(Value)
 		GoldESPColor = Value
 	end
 })
 Toggles.DoorESP:AddColorPicker("DoorESP_Color", {
 	Title = "Door ESP Color",
-	Value = DoorESPColor,
+	Default = DoorESPColor,
 	Callback = function(Value)
 		DoorESPColor = Value
 	end
