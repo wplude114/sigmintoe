@@ -24,12 +24,14 @@ Library = {
     OutlineTransparency = 0,
     FadeTime = 0,
 	DefaultMaxDistance = 100,
+	ShowDistance = false,
 
 	-- data/instances
     Objects = {},
 	ObjectData = {},
     Highlights = {},
     TextLabels = {},
+    DistanceTextLabels = {},
     Colors = {},
 
 	Version = "1.0.2"
@@ -119,6 +121,10 @@ function Library:RemoveESP(Object)
 			Library.TextLabels[obj]:Destroy()
 			Library.TextLabels[obj] = nil
 		end
+		if Library.DistanceTextLabels[obj] then
+			Library.DistanceTextLabels[obj]:Destroy()
+			Library.DistanceTextLabels[obj] = nil
+		end
 		debugPrint("Object successfully removed from ESP.")
 	end
 end
@@ -195,7 +201,7 @@ function Library.Update(dt)
 				Library.TextLabels[obj].Size = UDim2.fromOffset(21,21)
 				Library.TextLabels[obj].RichText = true
 				Library.TextLabels[obj].AnchorPoint = Vector2.new(0.5,0.5)
-				Library.TextLabels[obj].Text = objData.Text
+				Library.TextLabels[obj].Text = "[ "..objData.Text.." ]"
 			end
 			objText = Library.TextLabels[obj]
 			-- Update Text
@@ -203,6 +209,31 @@ function Library.Update(dt)
 			if objText.TextSize ~= Library.TextSize then objText.TextSize = Library.TextSize end
 			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
+
+			if Library.ShowDistances then
+				if not Library.DistanceTextLabels[obj] then
+					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", objText)
+					Library.DistanceTextLabels[obj].Name = Library:GenerateRandomString()
+					Library.DistanceTextLabels[obj].BackgroundTransparency = 1
+					Library.DistanceTextLabels[obj].TextStrokeTransparency = 0
+					Library.DistanceTextLabels[obj].Size = UDim2.fromOffset(21,30)
+					Library.DistanceTextLabels[obj].RichText = true
+					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0.5,0)
+					Library.DistanceTextLabels[obj].Position = UDim2.FromScale(0.5,1)
+				end
+				objDistanceText = Library.DistanceTextLabels[obj]
+				-- Update Text
+				objDistanceText.Text = "[ "..Distance.." ]"
+				if objDistanceText.TextColor3 ~= objData.Color then objText.TextColor3 = objData.Color end
+				if objDistanceText.TextSize ~= Library.TextSize/1.5 then objText.TextSize = Library.TextSize/1.5 end
+				if objDistanceText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
+				if objDistanceText.Font ~= Library.Font then objText.Font = Library.Font end
+			else
+				if Library.DistanceTextLabels[obj] then
+					Library.DistanceTextLabels[obj]:Destroy()
+					Library.DistanceTextLabels[obj] = nil
+				end
+			end
 
 			-- Position Text
 			local objScreenPosition, objOnScreen = Camera:WorldToViewportPoint(obj:IsA("Model") and obj:GetPivot().Position or obj.Position)
