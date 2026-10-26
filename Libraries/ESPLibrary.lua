@@ -152,8 +152,8 @@ end
 function Library:AddESP(params)
 	-- params: {Object:BasePart|Model, Text:string, Color:Color3}
     if Library.Unloaded then return end
-	debugPrint(`Attempt to add {obj} to ESP.`)
     local obj = params.Object or params
+	debugPrint(`Attempt to add {obj} to ESP.`)
     if not obj:IsA("BasePart") and not obj:IsA("Model") then return end
 	debugPrint("Object found")
 	if Library.Objects[obj] then return debugPrint("Object has already been added.") end
