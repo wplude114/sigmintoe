@@ -226,6 +226,7 @@ function Library.Update(dt)
 					Library.ListItems[obj].TextXAlignment = Enum.TextXAlignment.Right
 				end
 				objListText = Library.ListItems[obj]
+				objListText.Visible = not objOutOfRange
 				objListText.Size = UDim2.new(1,0,0,Library.TextSize+5)
 				objListText.Text = (Library.ShowDistance and "["..math.round(Distance).."] " or "").."["..objData.Text.."]"
 				if objListText.TextColor3 ~= objData.Color then objListText.TextColor3 = objData.Color end
