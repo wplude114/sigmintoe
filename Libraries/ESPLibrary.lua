@@ -212,16 +212,13 @@ function Library.Update(dt)
 
 			if Library.ShowDistances then
 				if not Library.DistanceTextLabels[obj] then
-					debugPrint(obj,)
-					debugPrint("No Distance Label, creating new one.")
-					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", objText)
+					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", TextHolder)
 					Library.DistanceTextLabels[obj].Name = Library.TextLabels[obj].Name.."_Distance"
 					Library.DistanceTextLabels[obj].BackgroundTransparency = 1
 					Library.DistanceTextLabels[obj].TextStrokeTransparency = 0
 					Library.DistanceTextLabels[obj].Size = UDim2.fromScale(1,1)
 					Library.DistanceTextLabels[obj].RichText = true
-					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0,0)
-					Library.DistanceTextLabels[obj].Position = UDim2.FromScale(0,1)
+					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0.5,0)
 				end
 				objDistanceText = Library.DistanceTextLabels[obj]
 				
@@ -248,6 +245,9 @@ function Library.Update(dt)
 					objScreenPosition.X / Camera.ViewportSize.X,
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
+				if Library.DistanceTextLabels[obj] then
+					Library.DistanceTextLabels[obj].Position = objText.Position + UDim2.FromOffset(0,10.5)
+				end
 			end
 		end
 	end
