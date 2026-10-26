@@ -34,7 +34,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.3"
+	Version = "1.0.3 - 3"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
