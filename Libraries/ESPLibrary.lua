@@ -189,7 +189,7 @@ function Library.Update(dt)
 			if objOutOfRange then 
 				objHighlight.Adornee = nil
 			else
-				Library.Highlights[obj].Adornee = obj
+				objHighlight.Adornee = obj
 			end
 
 			-- Create Text
@@ -213,21 +213,21 @@ function Library.Update(dt)
 			if Library.ShowDistances then
 				if not Library.DistanceTextLabels[obj] then
 					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", objText)
-					Library.DistanceTextLabels[obj].Name = Library:GenerateRandomString()
+					Library.DistanceTextLabels[obj].Name = Library.TextLabels[obj].Name.."_Distance"
 					Library.DistanceTextLabels[obj].BackgroundTransparency = 1
 					Library.DistanceTextLabels[obj].TextStrokeTransparency = 0
-					Library.DistanceTextLabels[obj].Size = UDim2.fromOffset(21,30)
+					Library.DistanceTextLabels[obj].Size = UDim2.fromScale(1,1)
 					Library.DistanceTextLabels[obj].RichText = true
-					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0.5,0)
-					Library.DistanceTextLabels[obj].Position = UDim2.FromScale(0.5,1)
+					Library.DistanceTextLabels[obj].AnchorPoint = Vector2.new(0,0)
+					Library.DistanceTextLabels[obj].Position = UDim2.FromScale(0,1)
 				end
 				objDistanceText = Library.DistanceTextLabels[obj]
-				-- Update Text
+				
 				objDistanceText.Text = "[ "..Distance.." ]"
-				if objDistanceText.TextColor3 ~= objData.Color then objText.TextColor3 = objData.Color end
-				if objDistanceText.TextSize ~= Library.TextSize/1.5 then objText.TextSize = Library.TextSize/1.5 end
-				if objDistanceText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
-				if objDistanceText.Font ~= Library.Font then objText.Font = Library.Font end
+				if objDistanceText.TextColor3 ~= objData.Color then objDistanceText.TextColor3 = objData.Color end
+				if objDistanceText.TextSize ~= Library.TextSize/2 then objDistanceText.TextSize = Library.TextSize/2 end
+				if objDistanceText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objDistanceText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
+				if objDistanceText.Font ~= Library.Font then objDistanceText.Font = Library.Font end
 			else
 				if Library.DistanceTextLabels[obj] then
 					Library.DistanceTextLabels[obj]:Destroy()
