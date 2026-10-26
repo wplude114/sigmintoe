@@ -34,7 +34,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.3 - 7"
+	Version = "1.0.3"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -222,9 +222,9 @@ function Library.Update(dt)
 				end
 				objDistanceText = Library.DistanceTextLabels[obj]
 				
-				objDistanceText.Text = "["..Distance.."]"
+				objDistanceText.Text = "["..math.round(Distance).."]"
 				if objDistanceText.TextColor3 ~= objData.Color then objDistanceText.TextColor3 = objData.Color end
-				if objDistanceText.TextSize ~= Library.TextSize/2 then objDistanceText.TextSize = Library.TextSize/2 end
+				if objDistanceText.TextSize ~= Library.TextSize/1.5 then objDistanceText.TextSize = Library.TextSize/1.5 end
 				if objDistanceText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objDistanceText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 				if objDistanceText.Font ~= Library.Font then objDistanceText.Font = Library.Font end
 			else
