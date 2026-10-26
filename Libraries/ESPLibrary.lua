@@ -47,7 +47,7 @@ local Workspace = CloneReference(workspace)
 local RunService = CloneReference(game:GetService("RunService"))
 local UserInputService = CloneReference(game:GetService("UserInputService"))
 local Debris = CloneReference(game:GetService("Debris"))
-local PathFindingService = CloneReference(game:GetService("PathFindingService"))
+local PathFindingService = CloneReference(game:GetService("PathfindingService"))
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 --------------------------------------------------------------
