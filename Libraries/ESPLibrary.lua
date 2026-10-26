@@ -161,7 +161,6 @@ function Library.Update(dt)
 	Library.TimeSinceLastUpdate += dt
 	if Library.TimeSinceLastUpdate < Library.UpdateFreq then return end
 	Library.TimeSinceLastUpdate = 0
-
 	for objId, obj in Library.Objects do
 		if not obj or (obj and not obj:IsDescendantOf(workspace) or obj:IsDescendantOf(LocalPlayer.Character)) then
 			debugPrint(`{obj} not found, removing..`)
@@ -210,6 +209,8 @@ function Library.Update(dt)
 			if objText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
 			if objText.Font ~= Library.Font then objText.Font = Library.Font end
 
+			debugPrint(Library.ShowDistances)
+			debugPrint(Library.DistanceTextLabels[obj] ~= nil)
 			if Library.ShowDistances then
 				if not Library.DistanceTextLabels[obj] then
 					Library.DistanceTextLabels[obj] = Instance.new("TextLabel", TextHolder)
@@ -229,7 +230,6 @@ function Library.Update(dt)
 				if objDistanceText.Font ~= Library.Font then objDistanceText.Font = Library.Font end
 			else
 				if Library.DistanceTextLabels[obj] then
-					debugPrint("Removing Distance Label..")
 					Library.DistanceTextLabels[obj]:Destroy()
 					Library.DistanceTextLabels[obj] = nil
 				end
@@ -246,6 +246,7 @@ function Library.Update(dt)
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
 				if Library.DistanceTextLabels[obj] then
+					debugPrint(Library.ShowDistances, objText.Position + UDim2.FromOffset(0,10.5))
 					Library.DistanceTextLabels[obj].Position = objText.Position + UDim2.FromOffset(0,10.5)
 				end
 			end
