@@ -1556,7 +1556,7 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 			Text = Entities[obj.Name],
 			Color = EntityESPColor,
 			MaxDistance = 250,
-			ShowList = obj.Name ~= "Drones"
+			ShowList = Entities[obj.Name] ~= "Drone"
 		})
 		EntityESP[obj] = obj
 	end
@@ -1687,6 +1687,21 @@ if true then
 			if not enabled then
 				for _,obj in EntityESP do ESPLibrary:RemoveESP(obj) end
 				EntityESP = {}
+			else
+				for i, obj in workspace:GetDescendants() do
+					if not obj:IsA("Model") then return end
+
+					if Entities[obj.Name] then
+						ESPLibrary:AddESP({
+							Object = obj,
+							Text = Entities[obj.Name],
+							Color = EntityESPColor,
+							MaxDistance = 250,
+							ShowList = Entities[obj.Name] ~= "Drone"
+						})
+						EntityESP[obj] = obj
+					end
+				end
 			end
     	end
 	})
@@ -1699,6 +1714,18 @@ if true then
 			if not enabled then
 				for _,obj in ItemESP do ESPLibrary:RemoveESP(obj) end
 				ItemESP = {}
+			else
+				for i,obj in workspace:GetDescendants() do
+					if not obj:IsA("Model") then return end
+					if ItemNames[obj.Name] and obj:FindFirstChildWhichIsA("ProximityPrompt", true) then
+						ESPLibrary:AddESP({
+							Object = obj,
+							Text = ItemNames[obj.Name],
+							Color = ItemESPColor
+						})
+						ItemESP[obj] = obj
+					end
+				end
 			end
     	end
 	})
