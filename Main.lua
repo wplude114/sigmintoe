@@ -1635,42 +1635,6 @@ ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
 		ItemESP[obj] = obj
 	end
 end)
-SecTabSet:AddColorPicker("ObjectivesESP_Color", {
-	Title = "Objective ESP Color",
-	Value = ObjectiveColor,
-	Callback = function(Value)
-		ObjectiveColor = Value
-	end
-})
-SecTabSet:AddColorPicker("EntityESP_Color", {
-	Title = "Entity ESP Color",
-	Value = EntityESPColor,
-	Callback = function(Value)
-		EntityESPColor = Value
-	end
-})
-SecTabSet:AddColorPicker("ItemESP_Color", {
-	Title = "Item ESP Color",
-	Value = ItemESPColor,
-	Callback = function(Value)
-		ItemESPColor = Value
-	end
-})
-SecTabSet:AddColorPicker("GoldESP_Color", {
-	Title = "Gold ESP Color",
-	Value = GoldESPColor,
-	Callback = function(Value)
-		GoldESPColor = Value
-	end
-})
-SecTabSet:AddColorPicker("DoorESP_Color", {
-	Title = "Door ESP Color",
-	Value = DoorESPColor,
-	Callback = function(Value)
-		DoorESPColor = Value
-	end
-})
-SecTabSet:AddDivider()
 SecTabSet:AddToggle("DistanceESP", {
 	Text = "Show Distances",
 	Default = false,
@@ -1750,6 +1714,41 @@ if true then
     	end
 	})
 end
+Toggles.ObjectivesESP:AddColorPicker("ObjectivesESP_Color", {
+	Title = "Objective ESP Color",
+	Value = ObjectiveColor,
+	Callback = function(Value)
+		ObjectiveColor = Value
+	end
+})
+Toggles.EntityESP:AddColorPicker("EntityESP_Color", {
+	Title = "Entity ESP Color",
+	Value = EntityESPColor,
+	Callback = function(Value)
+		EntityESPColor = Value
+	end
+})
+Toggles.ItemESP:AddColorPicker("ItemESP_Color", {
+	Title = "Item ESP Color",
+	Value = ItemESPColor,
+	Callback = function(Value)
+		ItemESPColor = Value
+	end
+})
+Toggles.GoldESP:AddColorPicker("GoldESP_Color", {
+	Title = "Gold ESP Color",
+	Value = GoldESPColor,
+	Callback = function(Value)
+		GoldESPColor = Value
+	end
+})
+Toggles.DoorESP:AddColorPicker("DoorESP_Color", {
+	Title = "Door ESP Color",
+	Value = DoorESPColor,
+	Callback = function(Value)
+		DoorESPColor = Value
+	end
+})
 
 local ESPUpdateConnection = game.RunService.Heartbeat:Connect(function(dt) ESPLibrary.Update(dt) end)
 
