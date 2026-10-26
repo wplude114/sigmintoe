@@ -36,7 +36,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.5 - 1"
+	Version = "1.0.5 - 2"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -70,13 +70,13 @@ local function GetHiddenUI()
 end
 --------------------------------------------------------------
 function Library:PathToPosition(StartPos, EndPos, DoMarkers)
-	local Path = PathFindingService:CreatePath()
+	local NewPath = PathFindingService:CreatePath()
 	local Success, ErrorMsg = pcall(function()
-		Path:ComputeAsync(StartPos, EndPos)
+		NewPath:ComputeAsync(StartPos, EndPos)
 	end)
 
-	if Success then
-		return path:GetWaypoints()
+	if Success and NewPath.Status == Enum.PathStatus.Success then
+		return NewPath:GetWaypoints()
 	else
 		return warn(ErrorMsg)
 	end
