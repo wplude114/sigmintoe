@@ -223,10 +223,11 @@ function Library.Update(dt)
 					Library.ListItems[obj].BackgroundTransparency = 1
 					Library.ListItems[obj].TextStrokeTransparency = 0
 					Library.ListItems[obj].RichText = true
+					Library.ListItems[obj].TextXAlignment = Enum.TextXAlignment.Right
 				end
 				objListText = Library.ListItems[obj]
 				objListText.Size = UDim2.new(1,0,0,Library.TextSize+5)
-				objListText.Text = "["..math.round(Distance).."] ["..objData.Text.."]"
+				objListText.Text = (Library.ShowDistance and "["..math.round(Distance).."] " or "").."["..objData.Text.."]"
 				if objListText.TextColor3 ~= objData.Color then objListText.TextColor3 = objData.Color end
 				if objListText.TextSize ~= Library.TextSize then objListText.TextSize = Library.TextSize end
 				if objListText.TextStrokeColor3 ~= Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) then objListText.TextStrokeColor3 = Color3.fromRGB(objData.Color.R/2,objData.Color.G/2,objData.Color.B/2) end
