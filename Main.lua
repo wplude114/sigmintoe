@@ -1688,11 +1688,12 @@ if true then
 				for _,obj in EntityESP do ESPLibrary:RemoveESP(obj) end
 				EntityESP = {}
 			else
-				print("finding entities..")
+				print("Looking for entities..")
 				for i, obj in workspace:GetDescendants() do
-					if not obj:IsA("Model") then return end
-
-					if Entities[obj.Name] then
+					if not Entities[obj.Name] and obj:IsA("Model") then return end
+					print(i)
+					if Entities[obj.Name] and not EntityESP[obj] then
+						print(`entity "{Entities[obj.Name]}" has been found, adding to ESP`)
 						ESPLibrary:AddESP({
 							Object = obj,
 							Text = Entities[obj.Name],
