@@ -7,7 +7,7 @@ ValidTypes = {
 --------------------------------------------------------------
 Library = {
 	DebugOutput = false,
-    OptimizationLevel = ValidTypes.OptimizationLevel.Default,
+    OptimizationLevel = ValidTypes.OptimizationLevel.Default, -- note: make this actually do something
     ESPMode = ValidTypes.ESP.Highlight,
     UpdateFreq = 0.05,
     TimeSinceLastUpdate = 0,
@@ -16,7 +16,7 @@ Library = {
     --- text
     Font = Enum.Font.RobotoMono,
     TextSize = 20,
-    --TextPosition = ValidTypes.Positions.Center
+    --TextPosition = ValidTypes.Positions.Center -- note: add when box esp type is working!!
 
     --- ESP
     FillTransparency = 0.75,
@@ -25,7 +25,6 @@ Library = {
 	DefaultMaxDistance = 100,
 	ShowDistance = false,
 	ShowESPList = false,
-	Pathfind = false,
 
 	-- data/instances
     Objects = {},
@@ -36,7 +35,7 @@ Library = {
     DistanceTextLabels = {},
     Colors = {},
 
-	Version = "1.0.5 - 2"
+	Version = "1.0.6"
     
 } Library.Unloaded = false
 --------------------------------------------------------------
@@ -47,7 +46,6 @@ local Workspace = CloneReference(workspace)
 local RunService = CloneReference(game:GetService("RunService"))
 local UserInputService = CloneReference(game:GetService("UserInputService"))
 local Debris = CloneReference(game:GetService("Debris"))
-local PathFindingService = CloneReference(game:GetService("PathfindingService"))
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 --------------------------------------------------------------
@@ -67,19 +65,6 @@ local function GetHiddenUI()
 	local Folder = Instance.new("Folder", CoreGui)
 	Folder.Name = ("%032x"):format(math.random(0, 2^31))
 	return Folder
-end
---------------------------------------------------------------
-function Library:PathToPosition(StartPos, EndPos, DoMarkers)
-	local NewPath = PathFindingService:CreatePath()
-	local Success, ErrorMsg = pcall(function()
-		NewPath:ComputeAsync(StartPos, EndPos)
-	end)
-
-	if Success and NewPath.Status == Enum.PathStatus.Success then
-		return NewPath:GetWaypoints()
-	else
-		return warn(ErrorMsg)
-	end
 end
 --------------------------------------------------------------
 local Hui = GetHiddenUI()
@@ -292,24 +277,6 @@ function Library.Update(dt)
 					objScreenPosition.X / Camera.ViewportSize.X,
 					objScreenPosition.Y / Camera.ViewportSize.Y
 				)
-			end
-
-			if Library.Pathfind then
-				local PathToObj = Library:PathToPosition(Camera.CFrame.Position, (obj:IsA("Model") and obj:GetPivot().Position or obj.Position))
-
-				if PathToObj then
-					for i,v in PathToObj do
-						local Marker = Instance.new("Part", PathfindingFolder)
-						Marker.Name = Library:GenerateRandomString()
-						Marker.Position = v.Position
-						Marker.Size = Vector3.new(0.5,0.5,0.5)
-						Marker.Anchored = true
-						Marker.CanCollide = false
-						Marker.Shape = "Ball"
-						Marker.Color = objData.Color
-						Marker.Material = Enum.Material.Neon
-					end
-				end
 			end
 		end
 	end
