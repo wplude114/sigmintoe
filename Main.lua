@@ -1,13 +1,15 @@
-AllowProgress = false
 IsTester = (game.Players.LocalPlayer.UserId == 9839357097)
+AllowProgress = IsTester
 if true then
 
 repeat task.wait() until game:IsLoaded()
 
 	local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
+	local thisRepo = "https://raw.githubusercontent.com/wplude114/sigmintoe/refs/heads/main/"
 	local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 	local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 	local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+	const ObjNames = loadstring(game:HttpGet(thisRepo.."ObjName.lua"))()
 
 local FlyModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/GeorgeRoblox/LINDOR/refs/heads/main/addonsfolder/Fly.lua"))()
 
@@ -70,7 +72,7 @@ onlineVersion = tostring(onlineVersion):gsub("%s+", "")
         ["Creak"] = "Creak"
 	}
     
-local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/wplude114/sigmintoe/refs/heads/main/Libraries/ESPLibrary.lua"))()
+local ESPLibrary = loadstring(game:HttpGet(thisRepo.."Libraries/ESPLibrary.lua"))()
 ESPLibrary:SetOptimizationLevel("Default")
 --ESPLibrary.DebugOutput = true
  
