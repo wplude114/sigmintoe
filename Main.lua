@@ -1,5 +1,4 @@
-IsTester = (game.Players.LocalPlayer.UserId == 9839357097)
-AllowProgress = IsTester
+AllowProgress = false
 if true then
 
 repeat task.wait() until game:IsLoaded()
@@ -12,6 +11,8 @@ repeat task.wait() until game:IsLoaded()
 	local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
 	task.wait()
 	const ObjNames = loadstring(game:HttpGet(thisRepo.."ObjName.lua"))()
+	const Testers = loadstring(game:HttpGet(thisRepo.."Tester.lua"))()
+	IsTester = table.find(Testers, game.Players.LocalPlayer.UserId)
 
 local FlyModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/GeorgeRoblox/LINDOR/refs/heads/main/addonsfolder/Fly.lua"))()
 
@@ -1440,20 +1441,7 @@ local ItemESP, ItemESPEnabled = {}, false
 local GoldESP, GoldESPEnabled = {}, false
 local ESPEnabled = true
 	-- {Object:BasePart|Model, Text:string, Color:Color3, MaxDistance:Number}
-local Objectives = {
-		["KeyObtain"] = "Room key",
-		["LeverForGate"] = "Lever",
-		["TimerLever"] = "Time Lever",
-		["GardenGateButton"] = "Button",
-		["MinesGateButton"] = "Button",
-		["StairwellFireAlarm"] = "Fire Alarm",
-		["StairwellTerminal"] = "Terminal",
-		["ArchivesTerminal"] = "Terminal",
-		["FuseObtain"] = "Fuse",
-		["MinesGenerator"] = "Generator",
-		["LiveHintBook"] = "Hint Book",
-		["SallyToy"] = "Stupid Horse",
-}
+local Objectives = ObjNames.Objective
 ESPConnections.Objectives = game.Players.LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
 	if not ObjectiveESPEnabled then return end
 	RoomModel = workspace.CurrentRooms:WaitForChild(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
@@ -1519,37 +1507,7 @@ ESPConnections.Gold = game.Players.LocalPlayer:GetAttributeChangedSignal("Curren
 	end
 end)
 
-local Entities = {
-		["Drones"] = "Drone",
-		["TellerRig"] = "Teller",
-		["Alma"] = "Alma",
-		["DronesStampede"] = "Drone Stampede",
-		["BashMoving"] = "Bash",
-		["Scribbles"] = "Scribbles",
-		["Creak"] = "Creak",
-		["NoiseModel"] = "Noise",
-		["TV_Stand"] = "Noise (TV)",
-		["RushMoving"] = "Rush",
-		["AmbushMoving"] = "Ambush",
-		["A60"] = "A-60",
-		["A120"] = "A-120",
-		["BackdoorRush"] = "Blitz",
-		["Eyes"] = "Eyes",
-		["BackdoorLookman"] = "Lookman",
-		["Lookman"] = "Lookman",
-		["GloombatSwarm"] = "Gloombat Swarm",
-		["Halt"] = "Halt",
-		["GlitchRush"] = "RNIUSHCG",
-		["GlitchedAmbush"]  = "AR0xMBUSH",
-		["CustomEntity"] = "Custom Entity",
-		["MonumentEntity"] = "Monument",
-		["Groundskeeper"] = "Groundskeeper",
-		["FigureRig"] = "Figure",
-        ["LiveEntityBramble"] = "Bramble",
-        ["FigureRagdoll"] = "Figure",
-        ["SallyMoving"] = "Sally",
-        ["JeffTheKiller"] = "Jeff The Killer",
-}
+local Entities = ObjNames.Entity
 ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 	if not EntityESPEnabled then return end
 	if not obj:IsA("Model") then return end
@@ -1566,70 +1524,7 @@ ESPConnections.Entities = workspace.DescendantAdded:Connect(function(obj)
 	end
 end)
 
-local ItemNames = {
-    ["Lighter"] = "Lighter",
-    ["Flashlight"] = "Flashlight",
-    ["Lockpick"] = "Lockpicks",
-    ["Vitamins"] = "Vitamins",
-    ["Bandage"] = "Bandage",
-    ["StarVial"] = "Vial of Starlight",
-    ["StarBottle"] = "Bottle of Starlight",
-    ["StarJug"] = "Barrel of Starlight",
-    ["Shakelight"] = "Gummy Flashlight",
-    ["Straplight"] = "Straplight",
-    ["Bulklight"] = "Spotlight",
-    ["Battery"] = "Battery",
-    ["Candle"] = "Candle",
-    ["Crucifix"] = "Crucifix",
-    ["CrucifixWall"] = "Crucifix",
-    ["Glowsticks"] = "Glowstick",
-    ["SkeletonKey"] = "Skeleton Key",
-    ["Candy"] = "Candy",
-    ["ShieldMini"] = "Mini Shield Potion",
-    ["ShieldBig"] = "Big Shield Potion",
-    ["BandagePack"] = "Bandage Pack",
-    ["BatteryPack"] = "Battery Pack",
-    ["RiftCandle"] = "Moonlight Candle",
-    ["LaserPointer"] = "Laser Pointer",
-    ["HolyGrenade"] = "Hold Hand Grenade",
-    ["Shears"] = "Shears",
-    ["Smoothie"] = "Smoothie",
-    ["Cheese"] = "Cheese",
-    ["Bread"] = "Bread",
-    ["AlarmClock"] = "Alarm Clock",
-    ["RiftSmoothie"] = "Moonlight Smoothie",
-    ["GweenSoda"] = "Gween Soda",
-    ["GlitchCube"] = "Glitch Fragment",
-    ["Scanner"] = "NVCS-3000",
-    ["Bomb"] = "Bomb",
-    ["Knockbomb"] = "Knockbomb",
-    ["Nanner"] = "Nanner",
-    ["BigBomb"] = "Big Bomb",
-    ["SnakeBox"] = "Hiding Box",
-    ["GoldGun"] = "Golden Gun",
-    ["StopSign"] = "Stop Sign",
-    ["TipJar"] = "Tip Jar",
-    ["Lantern"] = "Lantern",
-    ["IronKey"] = "Iron Key",
-    ["LotusPetal"] = "Lotus Petal",
-    ["Compass"] = "Compass",
-    ["LotusPetalPickup"] = "Lotus Petal",
-    ["LanternLitItem"] = "Lantern",
-    ["KeyIron"] = "Iron Key",
-    ["IronKeyForCrypt"] = "Iron Key",
-    ["Multitool"] = "Multitool",
-    ["RiftJar"] = "Rift Jar",
-    ["AloeVera"] = "Aloe Vera",
-    ["Donut"] = "Donut",
-    ["Lotus"] = "Lotus",
-    ["BoxingGloves"] = "Boxing Gloves",
-    ["Pizza"] = "Pizza Slice",
-    ["PaperPlane"] = "Paper Airplane",
-    ["WaterCup"] = "Water Cup",
-    ["LunchBox"] = "Lunch Box",
-    ["Briefcase"] = "Briefcase",
-    ["ArchivesStorageBox"] = "Storage Box",
-}
+local ItemNames = ObjNames.Item
 
 ESPConnections.Items = workspace.DescendantAdded:Connect(function(obj)
 	if not ItemESPEnabled then return end
