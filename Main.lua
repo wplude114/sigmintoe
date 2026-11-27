@@ -7,8 +7,10 @@ repeat task.wait() until game:IsLoaded()
 	local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
 	local thisRepo = "https://raw.githubusercontent.com/wplude114/sigmintoe/refs/heads/main/"
 	local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+	task.wait()
 	local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 	local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+	task.wait()
 	const ObjNames = loadstring(game:HttpGet(thisRepo.."ObjName.lua"))()
 
 local FlyModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/GeorgeRoblox/LINDOR/refs/heads/main/addonsfolder/Fly.lua"))()
